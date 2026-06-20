@@ -1,3 +1,55 @@
+// ── OPT SLOT PATCH ───────────────────────────────────────────────────────────
+// Resolves OPT14.pre codes → internal IDs and injects them into DATA[G] opt
+// slot entries so drawArrows() and hlChain() work without any extra changes.
+function patchOptSlots(){
+  if(G!=='2014') return;
+
+  const optIds=new Set(DATA[G].filter(s=>s.optional).map(s=>s.id));
+
+  // Remove opt-slot IDs previously injected into regular-subject unlocks
+  DATA[G].forEach(sub=>{
+    if(!sub.optional) sub.unlocks=(sub.unlocks||[]).filter(u=>!optIds.has(u));
+  });
+
+  // Reset opt slot pre/unlocks
+  DATA[G].forEach(sub=>{ if(sub.optional){sub.pre=[];sub.unlocks=[];} });
+
+  // Build map: optativa code → current slot ID (from localStorage)
+  const codeToSlot={};
+  DATA[G].forEach(sub=>{
+    if(!sub.optional) return;
+    const d=getSub(sub.id);
+    if(d.subjectCode) codeToSlot[d.subjectCode]=sub.id;
+  });
+
+  // Resolve a prereq code to an internal subject/slot ID
+  const resolve=code=>{
+    if(codeToSlot[code]) return codeToSlot[code];              // another optativa
+    if(CM.hasOwnProperty(code) && CM[code]) return CM[code];  // obrigatória via CM
+    if(EQUIV14[code]) return EQUIV14[code];                    // via equivalence map
+    return null;
+  };
+
+  // Set pre arrays on filled opt slots from OPT14 metadata
+  DATA[G].forEach(sub=>{
+    if(!sub.optional) return;
+    const d=getSub(sub.id);
+    if(!d.subjectCode) return;
+    const opt=OPT14[d.subjectCode];
+    if(!opt||!opt.pre||!opt.pre.length) return;
+    sub.pre=opt.pre.map(resolve).filter(Boolean);
+  });
+
+  // Derive unlocks by reversing pre relationships
+  DATA[G].forEach(sub=>{
+    if(!sub.optional) return;
+    sub.pre.forEach(preId=>{
+      const preSub=DATA[G].find(s=>s.id===preId);
+      if(preSub && !preSub.unlocks.includes(sub.id)) preSub.unlocks.push(sub.id);
+    });
+  });
+}
+
 // ── LEGEND & GRADE SWITCHER ───────────────────────────────────────────────────
 function buildLegend(){
   const l=document.getElementById('legend');
@@ -17,6 +69,7 @@ function switchGrade(g,btn){
 
 // ── RENDER ───────────────────────────────────────────────────────────────────
 function render(){
+  patchOptSlots(); // resolve opt pre/unlocks before any DATA[G] read
   const track=document.getElementById('track');
   track.innerHTML='<svg id="svg-layer"></svg>';
   track.classList.toggle('vertical', CFG.orientation==='v');
@@ -105,23 +158,32 @@ function render(){
         if(CFG.cardSize==='large')   cls+=' sz-large';
         if(nextAvailSet.has(sub.id)) cls+=' next-available';
 
+        const isOptSlot=sub.optional===true;
+        const hasRealSub=isOptSlot && !!d.subjectName;
+        if(hasRealSub) cls+=' opt-real';
+
+        const displayName=hasRealSub ? d.subjectName : sub.name;
+        const displayCode=hasRealSub ? d.subjectCode : sub.code;
+        const displayHours=hasRealSub ? (d.subjectHours||'—') : sub.hours;
+
         const card=document.createElement('div');
         card.className=cls;
         card.id='card-'+sub.id;
         card.style.borderColor=c.main+'25';
 
-        let codeHtml=CFG.showCode?`<div class="card-code" style="color:${c.main}">${sub.code}</div>`:'';
-        let hoursHtml=CFG.showHours?`<div class="card-hours">${sub.hours}</div>`:'';
+        let codeHtml=CFG.showCode?`<div class="card-code" style="color:${c.main}">${displayCode}</div>`:'';
+        let hoursHtml=CFG.showHours?`<div class="card-hours">${displayHours}</div>`:'';
         let gradeHtml='';
         if(CFG.showGrade && d.grade && d.status!=='pending'){
           const gv=parseFloat(d.grade);
           const gc=gv>=7?'gg':gv>=5?'gk':'gb';
           gradeHtml=`<div class="card-grade"><span class="grade-badge ${gc}">${d.grade}</span></div>`;
         }
+        const optBadge=isOptSlot?'<div class="opt-badge">OPT</div>':'';
 
         card.innerHTML=`<div class="card-stripe" style="background:${c.main}"></div>
-          ${codeHtml}
-          <div class="card-name">${sub.name}</div>
+          ${optBadge}${codeHtml}
+          <div class="card-name">${displayName}</div>
           ${hoursHtml}${gradeHtml}`;
 
         if(CFG.arrowVis==='hover'){

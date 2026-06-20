@@ -79,12 +79,11 @@ function parseHistorico(text){
   const MATRIC = ['Matriculado'];
   const SKIP   = ['Cance','Tranc','Cancelado','Trancado'];
 
-  const matched  = new Map();
+  const matched   = new Map();
+  const optFound  = [];
   const unmatched = [];
 
   let currentSemester = '';
-
-  const bigBlob = lines.join(' | ');
 
   const processedLines = new Set();
 
@@ -102,26 +101,70 @@ function parseHistorico(text){
 
     if(processedLines.has(code+currentSemester)) continue;
 
-    if(SKIP.some(s=>window3.includes(s))) continue;
+    // Find which specific line owns this code, then check SKIP only on that line.
+    // Checking window3 as a whole would cause an adjacent "Tranc" to incorrectly
+    // discard an approved subject two rows away (e.g. ESTBAS009 next to ESTBAS011-Tranc).
+    const codeOwnerLine = [line, lines[i-1]||'', lines[i+1]||'']
+      .find(l => { const m=l.match(codeRe); return m && m[1].toUpperCase()===code; }) || '';
+    if(SKIP.some(s=>codeOwnerLine.includes(s))) continue;
 
+    // Status: check code's own line first — adjacent Aprov/Rep must not contaminate
+    // (e.g. ESTBAS007-RepN surrounded by Aprov lines must stay 'failed', not become 'done')
     let status = '';
-    if(APROV.some(s=>window3.includes(s))) status='done';
-    else if(REPROV.some(s=>window3.includes(s))) status='failed';
-    else if(MATRIC.some(s=>window3.includes(s))) status='enrolled';
+    if(APROV.some(s=>codeOwnerLine.includes(s))) status='done';
+    else if(REPROV.some(s=>codeOwnerLine.includes(s))) status='failed';
+    else if(MATRIC.some(s=>codeOwnerLine.includes(s))) status='enrolled';
+    if(!status){
+      if(APROV.some(s=>window3.includes(s))) status='done';
+      else if(REPROV.some(s=>window3.includes(s))) status='failed';
+      else if(MATRIC.some(s=>window3.includes(s))) status='enrolled';
+    }
     if(!status) continue;
 
     processedLines.add(code+currentSemester);
 
-    let grade = '';
+    // Grade: code's own line first, fall back to window3
     const gradeRe = /\b(\d{1,2}[.,]\d{1,2})\s*(?:Aprov|Rep|Dispe)/i;
-    const gm = window3.match(gradeRe);
+    let grade = '';
+    const gm = codeOwnerLine.match(gradeRe) || window3.match(gradeRe);
     if(gm) grade = gm[1].replace(',','.');
     if(!grade){
-      const gm2 = window3.match(/\b(\.\d{2})\s*(?:Rep)/i);
+      const gm2 = codeOwnerLine.match(/\b(\.\d{2})\s*(?:Rep)/i) || window3.match(/\b(\.\d{2})\s*(?:Rep)/i);
       if(gm2) grade = '0'+gm2[1];
     }
 
-    const semester = currentSemester;
+    const turmaM = codeOwnerLine.match(/\b([A-Z][A-Z0-9]{2,7}_T\d{2})\b/);
+    const turma = turmaM ? turmaM[1] : '';
+
+    // Semester from code's own line to avoid wrong semester at section boundaries
+    const ownerSemM = codeOwnerLine.match(/(\d{4})\s*[\/\\]\s*(\d)\b/);
+    const semester = ownerSemM ? ownerSemM[1]+'/'+ownerSemM[2] : currentSemester;
+
+    // Check optativa catalog first (Grade 2014 only)
+    if(G==='2014' && OPT14[code]){
+      if(!optFound.find(o=>o.code===code)){
+        const chM = codeOwnerLine.match(/\b(30|45|60|75|90|120)\b/);
+        const hours = chM ? chM[1]+'h' : OPT14[code].hours;
+        optFound.push({code, name:OPT14[code].name, hours, status, grade, semester});
+      }
+      continue;
+    }
+
+    // Check grade-2014 equivalences (parallel codes that fulfil a grade slot)
+    if(G==='2014' && EQUIV14[code]){
+      const eqId = EQUIV14[code];
+      const existing = matched.get(eqId);
+      const priority = {done:3,enrolled:2,failed:1};
+      const np = priority[status]||0, ep = existing ? priority[existing.status]||0 : 0;
+      if(!existing){
+        matched.set(eqId,{subId:eqId,code,status,grade,semester,turma,attempts:[{code,status,grade,semester,turma}]});
+      } else {
+        if(!existing.attempts.some(a=>a.semester===semester))
+          existing.attempts.push({code,status,grade,semester,turma});
+        if(np>ep){existing.status=status;existing.grade=grade;existing.semester=semester;existing.code=code;existing.turma=turma;}
+      }
+      continue;
+    }
 
     let subId = CM.hasOwnProperty(code) ? CM[code] : undefined;
     if(subId===undefined){
@@ -133,27 +176,46 @@ function parseHistorico(text){
       const existing = matched.get(subId);
       const priority = {done:3,enrolled:2,failed:1};
       const np = priority[status]||0, ep = existing ? priority[existing.status]||0 : 0;
-      if(!existing || np>ep){
-        matched.set(subId,{subId,code,status,grade,semester});
+      if(!existing){
+        matched.set(subId,{subId,code,status,grade,semester,turma,attempts:[{code,status,grade,semester,turma}]});
+      } else {
+        if(!existing.attempts.some(a=>a.semester===semester))
+          existing.attempts.push({code,status,grade,semester,turma});
+        if(np>ep){existing.status=status;existing.grade=grade;existing.semester=semester;existing.code=code;existing.turma=turma;}
       }
     } else if(subId===null){
-      // known optativa — skip silently
+      // grade 2023 / known non-optativa code — skip silently
     } else {
       if(!unmatched.find(u=>u.code===code))
         unmatched.push({code,status,grade});
     }
   }
 
-  matched.forEach(({subId,code,status,grade,semester})=>{
-    const name = DATA[G].find(s=>s.id===subId)?.name||subId;
-    const icon = status==='done'?'✓':status==='enrolled'?'▶':'↺';
-    const cls  = status==='failed'?'unmatched':'matched';
-    resultsEl.innerHTML+=`<div class="iri ${cls}">${icon} <strong>${code}</strong> <span class="sub-name">${name}</span> ${grade?`<span style="color:var(--muted);margin-left:auto">${grade}</span>`:''}</div>`;
+  // Assign optativas to opt slots in chronological order
+  if(optFound.length>0){
+    const semOrder=sem=>{if(!sem)return 0;const m=sem.match(/(\d{4})\/(\d)/);return m?parseInt(m[1])*10+parseInt(m[2]):0;};
+    optFound.sort((a,b)=>semOrder(a.semester)-semOrder(b.semester));
+    const optSlots=DATA[G].filter(s=>s.optional).sort((a,b)=>a.period-b.period||DATA[G].indexOf(a)-DATA[G].indexOf(b)).map(s=>s.id);
+    optFound.forEach((opt,i)=>{
+      if(i>=optSlots.length) return;
+      const slotId=optSlots[i];
+      matched.set('__opt__'+slotId,{subId:slotId,code:opt.code,status:opt.status,grade:opt.grade,semester:opt.semester,subjectName:opt.name,subjectHours:opt.hours});
+    });
+  }
+
+  matched.forEach(({subId,code,status,grade,semester,subjectName,attempts})=>{
+    const sub=DATA[G].find(s=>s.id===subId);
+    const name=subjectName||(sub?.name||subId);
+    const icon=status==='done'?'✓':status==='enrolled'?'▶':'↺';
+    const cls=status==='failed'?'unmatched':'matched';
+    const optTag=sub?.optional?`<span style="font-size:.6rem;opacity:.5;margin-left:4px">OPT</span>`:'';
+    const retryTag=attempts&&attempts.length>1?`<span style="font-size:.6rem;margin-left:6px;color:var(--yellow);opacity:.8">${attempts.length}x</span>`:'';
+    resultsEl.innerHTML+=`<div class="iri ${cls}">${icon} <strong>${code}</strong> <span class="sub-name">${name}</span>${optTag}${retryTag} ${grade?`<span style="color:var(--muted);margin-left:auto">${grade}</span>`:''}</div>`;
   });
 
   if(unmatched.length>0){
     resultsEl.innerHTML+=`<div style="margin-top:10px;padding:8px 10px;border-radius:7px;background:rgba(255,255,255,.03);border:1px solid var(--border);">
-      <div style="font-size:.63rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px">Optativas / fora da grade ${G}</div>`;
+      <div style="font-size:.63rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px">Códigos não identificados</div>`;
     unmatched.forEach(({code,grade})=>{
       resultsEl.innerHTML+=`<div class="iri unmatched" style="background:transparent;margin-bottom:2px;opacity:.7">⚠ <strong>${code}</strong> ${grade?`<span style="margin-left:auto">${grade}</span>`:''}</div>`;
     });
@@ -162,9 +224,11 @@ function parseHistorico(text){
 
   pendingImport = [...matched.values()];
   const total = pendingImport.length;
+  const optCount = pendingImport.filter(p=>DATA[G].find(s=>s.id===p.subId)?.optional).length;
 
   if(total>0){
-    statusEl.innerHTML=`<span style="color:var(--green)">✓ ${total} matéria(s) identificada(s) na grade ${G}</span>${unmatched.length>0?` <span style="color:var(--muted);font-size:.75rem">+ ${unmatched.length} externas</span>`:''}`;
+    const optMsg=optCount>0?` <span style="color:var(--accent2);font-size:.75rem">+ ${optCount} optativa(s)</span>`:'';
+    statusEl.innerHTML=`<span style="color:var(--green)">✓ ${total-optCount} matéria(s) obrigatória(s) identificada(s) na grade ${G}</span>${optMsg}`;
     document.getElementById('import-confirm-btn').classList.add('show');
   } else {
     const foundCodes = [...text.matchAll(/\b(EST[A-Z]{2,6}\d{3,})\b/gi)].map(m=>m[1]).slice(0,5);
@@ -175,8 +239,13 @@ function parseHistorico(text){
 }
 
 function confirmImport(){
-  pendingImport.forEach(({subId,status,grade,semester})=>{
-    setSub(subId,{status,grade:grade||'',semester:semester||''});
+  pendingImport.forEach(({subId,code,status,grade,semester,subjectName,subjectHours,attempts,turma})=>{
+    const extra={};
+    if(subjectName){extra.subjectName=subjectName;extra.subjectCode=code||'';}
+    if(subjectHours) extra.subjectHours=subjectHours;
+    extra.attempts=attempts&&attempts.length>1?attempts:null;
+    extra.turma=turma||'';
+    setSub(subId,{status,grade:grade||'',semester:semester||'',...extra});
   });
   render();
   closeImport();

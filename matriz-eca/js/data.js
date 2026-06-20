@@ -21,9 +21,9 @@ const DATA={
   {id:'quim',      name:'Química Geral',                         code:'ESTBAS005', period:1,  hours:'60h',  pre:[],                              unlocks:[]},
   {id:'alglin1',   name:'Álgebra Linear I',                      code:'ESTBAS001', period:1,  hours:'60h',  pre:[],                              unlocks:['alglin2']},
   {id:'prog1',     name:'Ling. de Programação I',                code:'ESTECP001', period:1,  hours:'60h',  pre:[],                              unlocks:['prog2']},
-  {id:'intro_amb', name:'Intro. Ciências do Ambiente',           code:'ESTEBAS004',period:1,  hours:'30h',  pre:[],                              unlocks:[]},
-  {id:'intro_eca', name:'Intro. à Eng. Controle e Automação',    code:'ESTEBAS003',period:1,  hours:'30h',  pre:[],                              unlocks:[]},
-  {id:'calc1',     name:'Cálculo I',                             code:'ESTBAS002', period:1,  hours:'90h',  pre:[],                              unlocks:['calc2']},
+  {id:'intro_amb', name:'Intro. Ciências do Ambiente',           code:'ESTBAS004', period:1,  hours:'30h',  pre:[],                              unlocks:[]},
+  {id:'intro_eca', name:'Intro. à Eng. Controle e Automação',    code:'ESTBAS003', period:1,  hours:'30h',  pre:[],                              unlocks:[]},
+  {id:'calc1',     name:'Cálculo I',                             code:'ESTBAS002', period:1,  hours:'90h',  pre:[],                              unlocks:['calc2','prob_est']},
 
   // ── 2º PERÍODO ──
   {id:'intro_econ',name:'Introdução à Economia',                 code:'ESTBAS017', period:2,  hours:'45h',  pre:[],                              unlocks:[]},
@@ -32,7 +32,7 @@ const DATA={
   {id:'alglin2',   name:'Álgebra Linear II',                     code:'ESTBAS008', period:2,  hours:'60h',  pre:['alglin1'],                     unlocks:['sist_din']},
   {id:'prog2',     name:'Ling. de Programação II',               code:'ESTECP002', period:2,  hours:'60h',  pre:['prog1'],                       unlocks:[]},
   {id:'des_bas',   name:'Desenho Básico',                        code:'ESTBAS010', period:2,  hours:'60h',  pre:[],                              unlocks:[]},
-  {id:'prob_est',  name:'Probabilidade e Estatística',           code:'ESTBAS012', period:2,  hours:'60h',  pre:[],                              unlocks:[]},
+  {id:'prob_est',  name:'Probabilidade e Estatística',           code:'ESTBAS012', period:2,  hours:'60h',  pre:['calc1'],                       unlocks:[]},
   {id:'calc2',     name:'Cálculo II',                            code:'ESTBAS009', period:2,  hours:'75h',  pre:['calc1'],                       unlocks:['calc3']},
 
   // ── 3º PERÍODO ──
@@ -51,64 +51,64 @@ const DATA={
   {id:'fis4',      name:'Física IV',                             code:'ESTBAS018', period:4,  hours:'60h',  pre:['fis3'],                        unlocks:['eletromag']},
   {id:'lab_fis2',  name:'Lab. de Física II',                     code:'ESTBAS020', period:4,  hours:'30h',  pre:['fis3'],                        unlocks:[]},
   {id:'circ1',     name:'Circuitos Elétricos I',                 code:'ESTEEL001', period:4,  hours:'60h',  pre:['fis3'],                        unlocks:['circ2','elet_ana','lab_elet_ana','inst_ind','lab_inst','lab_circ2']},
-  {id:'lab_circ1', name:'Lab. de Circuitos I',                   code:'ESTEEL002', period:4,  hours:'30h',  pre:['fis3'],                        unlocks:['lab_circ2']},
+  {id:'lab_circ1', name:'Lab. de Circuitos I',                   code:'ESTEEL002', period:4,  hours:'30h',  pre:['fis3'],                        unlocks:['lab_circ2','lab_elet_ana']},
   {id:'calc_num',  name:'Cálculo Numérico',                      code:'ESTEBAS049',period:4,  hours:'60h',  pre:['calc3'],                       unlocks:[]},
   {id:'sist_din',  name:'Sistemas Dinâmicos',                    code:'ESTEMA007', period:4,  hours:'60h',  pre:['calc3'],                       unlocks:[]},
   {id:'calc4',     name:'Cálculo IV',                            code:'ESTBAS019', period:4,  hours:'60h',  pre:['calc3'],                       unlocks:['sinais']},
 
   // ── 5º PERÍODO ──
-  {id:'cont1',     name:'Controle I',                            code:'ESTEMT003', period:5,  hours:'60h',  pre:['fis1'],                        unlocks:['cont2','lab_cont1']},
+  {id:'cont1',     name:'Controle I',                            code:'ESTEMT003', period:5,  hours:'60h',  pre:['fis1'],                        unlocks:['cont2','lab_cont1','lab_cont2']},
   {id:'lab_cont1', name:'Lab. de Controle I',                    code:'ESTEMA008', period:5,  hours:'30h',  pre:['fis1'],                        unlocks:['lab_cont2']},
   {id:'circ2',     name:'Circuitos Elétricos II',                code:'ESTEEL003', period:5,  hours:'60h',  pre:['circ1'],                       unlocks:['sist_pot']},
   {id:'elet_ana',  name:'Eletrônica Analógica',                  code:'ESTEMA003', period:5,  hours:'60h',  pre:['circ1'],                       unlocks:['elet_dig','lab_elet_dig']},
   {id:'inst_ind',  name:'Instrumentação Industrial',             code:'ESTEMA005', period:5,  hours:'60h',  pre:['circ1'],                       unlocks:['lab_inst']},
   {id:'lab_inst',  name:'Lab. de Instrumentação Industrial',     code:'ESTEMA006', period:5,  hours:'30h',  pre:['circ1'],                       unlocks:[]},
   {id:'lab_circ2', name:'Lab. de Circuitos Elétricos II',        code:'ESTEEL004', period:5,  hours:'30h',  pre:['circ1','lab_circ1'],           unlocks:[]},
-  {id:'lab_elet_ana',name:'Lab. de Eletrônica Analógica',        code:'ESTEMA004', period:5,  hours:'45h',  pre:['circ1'],                       unlocks:[]},
+  {id:'lab_elet_ana',name:'Lab. de Eletrônica Analógica',        code:'ESTEMA004', period:5,  hours:'45h',  pre:['circ1','lab_circ1'],           unlocks:[]},
   {id:'sinais',    name:'Análise de Sinais e Sistemas',          code:'ESTEMA002', period:5,  hours:'60h',  pre:['calc4'],                       unlocks:['mod_sim']},
 
   // ── 6º PERÍODO ──
-  {id:'cont2',     name:'Controle II',                           code:'ESTEMT004', period:6,  hours:'60h',  pre:['cont1'],                       unlocks:['cont3','lab_cont2']},
-  {id:'lab_cont2', name:'Lab. de Controle II',                   code:'ESTEMA010', period:6,  hours:'30h',  pre:['cont2','lab_cont1'],           unlocks:['lab_cont3']},
+  {id:'cont2',     name:'Controle II',                           code:'ESTEMT004', period:6,  hours:'60h',  pre:['cont1'],                       unlocks:['cont3','lab_cont3']},
+  {id:'lab_cont2', name:'Lab. de Controle II',                   code:'ESTEMA010', period:6,  hours:'30h',  pre:['cont1','lab_cont1'],           unlocks:['lab_cont3']},
   {id:'sist_pot',  name:'Sist. Eletrônicos de Potência',         code:'ESTEMT006', period:6,  hours:'60h',  pre:['circ2'],                       unlocks:[]},
-  {id:'elet_dig',  name:'Eletrônica Digital',                    code:'ESTMA009',  period:6,  hours:'60h',  pre:['elet_ana'],                    unlocks:['lab_elet_dig']},
-  {id:'lab_elet_dig',name:'Lab. de Eletrônica Digital',          code:'ESTEMA061', period:6,  hours:'45h',  pre:['elet_dig'],                    unlocks:[]},
+  {id:'elet_dig',  name:'Eletrônica Digital',                    code:'ESTMA009',  period:6,  hours:'60h',  pre:['elet_ana'],                    unlocks:[]},
+  {id:'lab_elet_dig',name:'Lab. de Eletrônica Digital',          code:'ESTEMA061', period:6,  hours:'45h',  pre:['elet_ana'],                    unlocks:[]},
   {id:'proc_trans',name:'Processos de Transformação',            code:'ESTEMA013', period:6,  hours:'60h',  pre:['intro_mat'],                   unlocks:['gest_op']},
   {id:'eletromag', name:'Eletromagnetismo',                      code:'ESTEEL013', period:6,  hours:'60h',  pre:['fis4'],                        unlocks:['maq_elet','lab_maq']},
   {id:'mod_sim',   name:'Modelagem e Simulação de Sist. Disc.',  code:'ESTEMT001', period:6,  hours:'60h',  pre:['sinais'],                      unlocks:['auto_sup']},
 
   // ── 7º PERÍODO ──
-  {id:'cont3',     name:'Controle III',                          code:'ESTEMAS015',period:7,  hours:'45h',  pre:['cont2'],                       unlocks:['lab_cont3']},
-  {id:'lab_cont3', name:'Lab. de Controle III',                  code:'ESTEMAS018',period:7,  hours:'30h',  pre:['cont3','lab_cont2'],           unlocks:[]},
+  {id:'cont3',     name:'Controle III',                          code:'ESTEMAS015',period:7,  hours:'45h',  pre:['cont2'],                       unlocks:[]},
+  {id:'lab_cont3', name:'Lab. de Controle III',                  code:'ESTEMAS018',period:7,  hours:'30h',  pre:['cont2','lab_cont2'],           unlocks:[]},
   {id:'estagio1',  name:'Estágio em ECA I',                      code:'ESTEMA011', period:7,  hours:'450h', pre:['com_exp','fis1','quim','alglin1','prog1','intro_amb','intro_eca','calc1','intro_econ','fis2','intro_adm','alglin2','prog2','des_bas','prob_est','calc2','mec1','fis3','lab_fis1','mec_flu','prat_prof','intro_mat','empreend','calc3','intro_ca','mec_sol','fis4','lab_fis2','circ1','lab_circ1','calc_num','sist_din','calc4','cont1','lab_cont1','circ2','elet_ana','inst_ind','lab_inst','lab_circ2','lab_elet_ana','sinais','cont2','lab_cont2','sist_pot','elet_dig','lab_elet_dig','proc_trans','eletromag','mod_sim'], unlocks:['estagio2']},
   {id:'hig_seg',   name:'Higiene e Segurança do Trabalho',       code:'ESTECI024', period:7,  hours:'60h',  pre:[],                              unlocks:[]},
-  {id:'opt1_14',   name:'Optativa I',                            code:'—',         period:7,  hours:'—',    pre:[],                              unlocks:[]},
+  {id:'opt1_14',   name:'Optativa I',                            code:'—',         period:7,  hours:'—',    pre:[],                              unlocks:[],  optional:true},
   {id:'maq_elet',  name:'Máquinas Elétricas e Acionamentos',     code:'ESTEEL027', period:7,  hours:'60h',  pre:['eletromag'],                   unlocks:['lab_maq']},
   {id:'lab_maq',   name:'Lab. de Máquinas Elétricas',            code:'ESTEMA012', period:7,  hours:'45h',  pre:['eletromag'],                   unlocks:[]},
 
   // ── 8º PERÍODO ──
-  {id:'opt2_14',   name:'Optativa II',                           code:'—',         period:8,  hours:'—',    pre:[],                              unlocks:[]},
-  {id:'opt3_14',   name:'Optativa III',                          code:'—',         period:8,  hours:'—',    pre:[],                              unlocks:[]},
+  {id:'opt2_14',   name:'Optativa II',                           code:'—',         period:8,  hours:'—',    pre:[],                              unlocks:[],  optional:true},
+  {id:'opt3_14',   name:'Optativa III',                          code:'—',         period:8,  hours:'—',    pre:[],                              unlocks:[],  optional:true},
   {id:'estagio2',  name:'Estágio em ECA II',                     code:'ESTEMA021', period:8,  hours:'450h', pre:['estagio1'],                    unlocks:[]},
   {id:'cmd_elet',  name:'Comandos Eletropneumáticos e Hid.',     code:'ESTEMA031', period:8,  hours:'60h',  pre:['mec_flu'],                     unlocks:['lab_cmd']},
-  {id:'opt4_14',   name:'Optativa IV',                           code:'—',         period:8,  hours:'—',    pre:[],                              unlocks:[]},
+  {id:'opt4_14',   name:'Optativa IV',                           code:'—',         period:8,  hours:'—',    pre:[],                              unlocks:[],  optional:true},
   {id:'gest_op',   name:'Gestão de Operações',                   code:'ESTEMA017', period:8,  hours:'45h',  pre:['proc_trans'],                  unlocks:[]},
 
   // ── 9º PERÍODO ──
   {id:'tcc1',      name:'TCC I',                                  code:'ESTMA036',  period:9,  hours:'45h',  pre:['com_exp','fis1','quim','alglin1','prog1','intro_amb','intro_eca','calc1','intro_econ','fis2','intro_adm','alglin2','prog2','des_bas','prob_est','calc2','mec1','fis3','lab_fis1','mec_flu','prat_prof','intro_mat','empreend','calc3','intro_ca','mec_sol','fis4','lab_fis2','circ1','lab_circ1','calc_num','sist_din','calc4','cont1','lab_cont1','circ2','elet_ana','inst_ind','lab_inst','lab_circ2','lab_elet_ana','sinais','cont2','lab_cont2','sist_pot','elet_dig','lab_elet_dig','proc_trans','eletromag','mod_sim','cont3','lab_cont3','hig_seg','opt1_14','maq_elet','lab_maq','opt2_14','opt3_14','cmd_elet','opt4_14','gest_op'], unlocks:['tcc2']},
   {id:'top_esp1',  name:'Tópicos Especiais em ECA I',             code:'ESTMA100',  period:9,  hours:'60h',  pre:['com_exp','fis1','quim','alglin1','prog1','intro_amb','intro_eca','calc1','intro_econ','fis2','intro_adm','alglin2','prog2','des_bas','prob_est','calc2','mec1','fis3','lab_fis1','mec_flu','prat_prof','intro_mat','empreend','calc3','intro_ca','mec_sol','fis4','lab_fis2','circ1','lab_circ1','calc_num','sist_din','calc4','cont1','lab_cont1','circ2','elet_ana','inst_ind','lab_inst','lab_circ2','lab_elet_ana','sinais','cont2','lab_cont2','sist_pot','elet_dig','lab_elet_dig','proc_trans','eletromag','mod_sim'], unlocks:['top_esp2']},
-  {id:'opt5_14',   name:'Optativa V',                             code:'—',         period:9,  hours:'—',    pre:[],                              unlocks:[]},
+  {id:'opt5_14',   name:'Optativa V',                             code:'—',         period:9,  hours:'—',    pre:[],                              unlocks:[],  optional:true},
   {id:'lab_cmd',   name:'Lab. Comandos Eletropneumáticos e Hid.', code:'ESTMA820',  period:9,  hours:'30h',  pre:['cmd_elet'],                    unlocks:[]},
-  {id:'opt6_14',   name:'Optativa VI',                            code:'—',         period:9,  hours:'—',    pre:[],                              unlocks:[]},
-  {id:'opt7_14',   name:'Optativa VII',                           code:'—',         period:9,  hours:'—',    pre:[],                              unlocks:[]},
+  {id:'opt6_14',   name:'Optativa VI',                            code:'—',         period:9,  hours:'—',    pre:[],                              unlocks:[],  optional:true},
+  {id:'opt7_14',   name:'Optativa VII',                           code:'—',         period:9,  hours:'—',    pre:[],                              unlocks:[],  optional:true},
   {id:'auto_sup',  name:'Automação e Supervisão de Proc.',        code:'ESTMA026',  period:9,  hours:'45h',  pre:['mod_sim'],                     unlocks:[]},
 
   // ── 10º PERÍODO ──
   {id:'tcc2',      name:'TCC II',                                 code:'ESTEMA046', period:10, hours:'45h',  pre:['tcc1'],                        unlocks:[]},
   {id:'top_esp2',  name:'Tópicos Especiais em ECA II',            code:'ESTEMA102', period:10, hours:'60h',  pre:['top_esp1'],                    unlocks:[]},
-  {id:'opt8_14',   name:'Optativa VIII',                          code:'—',         period:10, hours:'—',    pre:[],                              unlocks:[]},
-  {id:'opt9_14',   name:'Optativa IX',                            code:'—',         period:10, hours:'—',    pre:[],                              unlocks:[]},
-  {id:'opt10_14',  name:'Optativa X',                             code:'—',         period:10, hours:'—',    pre:[],                              unlocks:[]},
+  {id:'opt8_14',   name:'Optativa VIII',                          code:'—',         period:10, hours:'—',    pre:[],                              unlocks:[],  optional:true},
+  {id:'opt9_14',   name:'Optativa IX',                            code:'—',         period:10, hours:'—',    pre:[],                              unlocks:[],  optional:true},
+  {id:'opt10_14',  name:'Optativa X',                             code:'—',         period:10, hours:'—',    pre:[],                              unlocks:[],  optional:true},
 ],
 "2023":[
   {id:'com_exp_23',  name:'Comunicação e Expressão',        code:'ESTBAS006', period:1,hours:'60h', pre:[],unlocks:['prat_prof_23']},
@@ -191,6 +191,71 @@ const DATA={
 ]
 };
 
+// ── OPTATIVAS CATALOG (Grade 2014 — EST18MCAD EMA_2014) ─────────────────────
+// pre arrays use UEA official codes; patchOptSlots() resolves them to IDs at runtime.
+// Codes referencing OTHER optativas use the OPT14 key; obrigatórias use their CM code.
+const OPT14={
+  'EST0826':   {name:'Língua Brasileira de Sinais (Libras)',         hours:'—',  pre:[]},
+  'ESTECP014': {name:'Redes de Computadores I',                      hours:'—',  pre:[]},
+  'ESTECP018': {name:'Redes de Computadores II',                     hours:'—',  pre:['ESTECP014']},
+  'ESTECP024': {name:'Tecnologia WEB',                               hours:'—',  pre:['ESTECP014']},
+  'ESTECP025': {name:'Interface Usuário-Sist. Computacionais',       hours:'—',  pre:['ESTEMT004']},
+  'ESTECP038': {name:'Projeto de Sistemas Embarcados',               hours:'—',  pre:['ESTEMA022']},
+  'ESTEEL007': {name:'Eletrônica II',                                hours:'—',  pre:[]},
+  'ESTEEL008': {name:'Lab. de Eletrônica II',                        hours:'—',  pre:[]},
+  'ESTEEL021': {name:'Tecnologia de Hardware Reprogramável',         hours:'—',  pre:[]},
+  'ESTEEL029': {name:'Sist. de Comunicações Móveis Celulares',       hours:'—',  pre:['ESTEMA013']},
+  'ESTEEL044': {name:'Processamento Digital de Imagens',             hours:'—',  pre:['ESTEMA002']},
+  'ESTEEL046': {name:'Instalações Elétricas',                        hours:'—',  pre:[]},
+  'ESTEEL063': {name:'Manutenção de Equip. Elétricos',               hours:'—',  pre:['ESTEEL001']},
+  'ESTEMA019': {name:'Processamento e Controle Digital',             hours:'—',  pre:['ESTEMA004']},
+  'ESTEMA022': {name:'Microprocessadores e Microcontroladores',      hours:'—',  pre:['ESTECP002','ESTEMA009']},
+  'ESTEMA024': {name:'Redes Industriais de Comunicação',             hours:'—',  pre:['ESTECP014']},
+  'ESTEMA029': {name:'Manufatura Integrada por Comp. e Robótica',    hours:'—',  pre:[]},
+  'ESTEMA030': {name:'Inteligência Artificial Aplic. à Automação',   hours:'—',  pre:['ESTECP002']},
+  'ESTEMA033': {name:'Planejamento e Gestão da Qualidade',           hours:'—',  pre:['ESTBAS012']},
+  'ESTEMA034': {name:'Estágio Supervisionado III em ECA',            hours:'450h',pre:[]},
+  'ESTEMA035': {name:'Estágio Supervisionado IV em ECA',             hours:'450h',pre:['ESTEMA011']},
+  'ESTEMA037': {name:'Controle Robusto',                             hours:'—',  pre:['ESTEMA039']},
+  'ESTEMA038': {name:'Controle Preditivo',                           hours:'—',  pre:['ESTEMA039']},
+  'ESTEMA039': {name:'Controle Não Linear',                          hours:'—',  pre:['ESTEMT004']},
+  'ESTEMA040': {name:'Identificação de Sist. de Controle',           hours:'—',  pre:['ESTEMT004']},
+  'ESTEMA042': {name:'Estágio Supervisionado III em ECA',            hours:'450h',pre:['ESTEMA011']},
+  'ESTEMA044': {name:'Comandos Eletropneumáticos I',                 hours:'—',  pre:['ESTEMA031']},
+  'ESTEMA067': {name:'Sistema Supervisório',                         hours:'—',  pre:['ESTEMT001']},
+  'ESTEME005': {name:'Intro. Projeto de Sist. Mecânicos',            hours:'—',  pre:['ESTBAS010']},
+  'ESTEME036': {name:'Intro. Método dos Elementos Finitos',          hours:'—',  pre:['ESTBAS019']},
+  'ESTEME041': {name:'Programação e Operação de CNC',                hours:'—',  pre:['ESTECP002']},
+  'ESTEMT013': {name:'Projetos de Experimentos e Confiabilidade',    hours:'—',  pre:[]},
+  'ESTEMT015': {name:'Robótica Industrial',                          hours:'—',  pre:['ESTBAS049']},
+  'ESTEMT019': {name:'Nanotecnologia',                               hours:'—',  pre:[]},
+  'ESTEMT020': {name:'Programação de Robôs',                         hours:'—',  pre:['ESTEMT015']},
+  'ESTEMT024': {name:'Introdução à Biomecânica',                     hours:'—',  pre:[]},
+  'ESTEMT027': {name:'Sistemas Microprocessados',                    hours:'—',  pre:['ESTEMA009']},
+  'ESTEMT048': {name:'Gestão de Projeto',                            hours:'—',  pre:['ESTEME005']},
+  'ESTEPR016': {name:'Projeto do Produto e Processo',                hours:'—',  pre:[]},
+  'ESTEPR023': {name:'Sistemas de Gestão Ambiental',                 hours:'—',  pre:[]},
+  'ESTEPR026': {name:'Gestão de Manutenção',                         hours:'—',  pre:[]},
+  'ESTEPR203': {name:'Legislação da Zona Franca de Manaus',          hours:'—',  pre:[]},
+};
+
+// ── GRADE-2014 EQUIVALENCES (old/parallel codes → subject id) ───────────────
+// These appear in PDFs when a student used an equivalent discipline to fulfil
+// a grade-2014 slot. Checked before CM so they never fall through to null.
+const EQUIV14={
+  'ESTEEL012':'sinais',       // Análise de Sinais e Sistemas (equiv ESTEMA002)
+  'ESTEMA401':'sinais',       // idem (segunda equivalência)
+  'ESTEEL009':'elet_dig',     // Eletrônica Digital (equiv ESTEMA009)
+  'ESTEEL010':'lab_elet_dig', // Lab. Eletrônica Digital (equiv ESTEMA061)
+  'ESTEMA060':'lab_elet_dig', // idem (segunda equivalência)
+  'ESTEMA502':'proc_trans',   // Processos de Transformação (equiv ESTEMA013)
+  'ESTEMA020':'lab_cmd',      // Lab. Comandos Eletropneumáticos (código atual)
+  'ESTEEL054':'elet_ana',     // Eletrônica Analógica (equiv ESTEMA003)
+  'ESTEEL057':'inst_ind',     // Instrumentação Industrial (equiv ESTEMA005)
+  'ESTEEL022':'sist_pot',     // Sist. Eletrônicos de Potência (equiv ESTEMT006)
+  'ESTEEL0503':'eletromag',   // Eletromagnetismo (equiv ESTEEL013)
+};
+
 // ── CODE MAP (histórico code → subject id in grade 2014) ────────────────────
 const CM={
   // 1º Período
@@ -199,9 +264,8 @@ const CM={
   'ESTBAS005':'quim',
   'ESTBAS001':'alglin1',
   'ESTECP001':'prog1',
-  'ESTEBAS004':'intro_amb',
-  'ESTEBAS003':'intro_eca',
-  'ESTBAS003':'intro_eca',
+  'ESTBAS004':'intro_amb',   'ESTEBAS004':'intro_amb',
+  'ESTBAS003':'intro_eca',   'ESTEBAS003':'intro_eca',
   'ESTBAS002':'calc1',
   // 2º Período
   'ESTBAS017':'intro_econ',
@@ -245,7 +309,9 @@ const CM={
   // 10º Período
   'ESTEMA046':'tcc2',     'ESTEMA102':'top_esp2',
   // Disciplinas fora da grade 2014 → null (optativas / grade 2023)
+  // Nota: ESTEMA502 foi removido daqui — é tratado por EQUIV14 (grade 2014)
+  //       e pelo fallback DATA[G] (grade 2023 → proc_fab_23)
   'ESTEMA300':null, 'ESTEMA302':null, 'ESTEEL0503':null, 'ESTEEL063':null,
   'ESTEMA033':null, 'ESTEMA039':null, 'ESTEEL021':null,  'ESTEMA030':null,
-  'ESTEMT013':null, 'ESTEMT024':null, 'ESTEMA502':null,  'ESTEMA603':null,
+  'ESTEMT013':null, 'ESTEMT024':null, 'ESTEMA603':null,
 };
