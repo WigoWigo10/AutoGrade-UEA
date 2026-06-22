@@ -38,10 +38,12 @@
         <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
       </button>
       <div class="export-menu" id="export-menu">
-        <div class="export-menu-label">Resolução da imagem</div>
+        <div class="export-menu-label">PNG Raster</div>
         <button onclick="exportPNG(2)">2× <span>Normal (~2K)</span></button>
         <button onclick="exportPNG(3)">3× <span>Alta Definição (~4K)</span></button>
         <button onclick="exportPNG(4)">4× <span>Ultra HD (~6K)</span></button>
+        <div class="export-menu-label" style="margin-top:6px">SVG Vetorial</div>
+        <button onclick="exportSVG()">SVG <span>Editável — Figma / Inkscape</span></button>
       </div>
     </div>
     <button class="hbtn danger" onclick="clearAll()">
@@ -301,6 +303,7 @@
 <script src="js/arrows.js"></script>
 <script src="js/modal.js"></script>
 <script src="js/import.js"></script>
+<script src="js/export.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>
