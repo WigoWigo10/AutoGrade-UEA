@@ -95,17 +95,17 @@ const DATA={
   {id:'gest_op',   name:'Gestão de Operações',                   code:'ESTEMA017', period:8,  hours:'45h',  pre:['proc_trans'],                  unlocks:[]},
 
   // ── 9º PERÍODO ──
-  {id:'tcc1',      name:'TCC I',                                  code:'ESTMA036',  period:9,  hours:'45h',  pre:['com_exp','fis1','quim','alglin1','prog1','intro_amb','intro_eca','calc1','intro_econ','fis2','intro_adm','alglin2','prog2','des_bas','prob_est','calc2','mec1','fis3','lab_fis1','mec_flu','prat_prof','intro_mat','empreend','calc3','intro_ca','mec_sol','fis4','lab_fis2','circ1','lab_circ1','calc_num','sist_din','calc4','cont1','lab_cont1','circ2','elet_ana','inst_ind','lab_inst','lab_circ2','lab_elet_ana','sinais','cont2','lab_cont2','sist_pot','elet_dig','lab_elet_dig','proc_trans','eletromag','mod_sim','cont3','lab_cont3','hig_seg','opt1_14','maq_elet','lab_maq','opt2_14','opt3_14','cmd_elet','opt4_14','gest_op'], unlocks:['tcc2']},
-  {id:'top_esp1',  name:'Tópicos Especiais em ECA I',             code:'ESTMA100',  period:9,  hours:'60h',  pre:['com_exp','fis1','quim','alglin1','prog1','intro_amb','intro_eca','calc1','intro_econ','fis2','intro_adm','alglin2','prog2','des_bas','prob_est','calc2','mec1','fis3','lab_fis1','mec_flu','prat_prof','intro_mat','empreend','calc3','intro_ca','mec_sol','fis4','lab_fis2','circ1','lab_circ1','calc_num','sist_din','calc4','cont1','lab_cont1','circ2','elet_ana','inst_ind','lab_inst','lab_circ2','lab_elet_ana','sinais','cont2','lab_cont2','sist_pot','elet_dig','lab_elet_dig','proc_trans','eletromag','mod_sim'], unlocks:['top_esp2']},
+  {id:'tcc1',      name:'TCC I',                                  code:'ESTEMA036', period:9,  hours:'45h',  pre:['com_exp','fis1','quim','alglin1','prog1','intro_amb','intro_eca','calc1','intro_econ','fis2','intro_adm','alglin2','prog2','des_bas','prob_est','calc2','mec1','fis3','lab_fis1','mec_flu','prat_prof','intro_mat','empreend','calc3','intro_ca','mec_sol','fis4','lab_fis2','circ1','lab_circ1','calc_num','sist_din','calc4','cont1','lab_cont1','circ2','elet_ana','inst_ind','lab_inst','lab_circ2','lab_elet_ana','sinais','cont2','lab_cont2','sist_pot','elet_dig','lab_elet_dig','proc_trans','eletromag','mod_sim','cont3','lab_cont3','hig_seg','maq_elet','lab_maq'], unlocks:['tcc2']},
+  {id:'top_esp1',  name:'Tópicos Especiais em ECA I',             code:'ESTEMA100', period:9,  hours:'60h',  pre:['com_exp','fis1','quim','alglin1','prog1','intro_amb','intro_eca','calc1','intro_econ','fis2','intro_adm','alglin2','prog2','des_bas','prob_est','calc2','mec1','fis3','lab_fis1','mec_flu','prat_prof','intro_mat','empreend','calc3','intro_ca','mec_sol','fis4','lab_fis2','circ1','lab_circ1','calc_num','sist_din','calc4','cont1','lab_cont1','circ2','elet_ana','inst_ind','lab_inst','lab_circ2','lab_elet_ana','sinais','cont2','lab_cont2','sist_pot','elet_dig','lab_elet_dig','proc_trans','eletromag','mod_sim'], unlocks:[]},
   {id:'opt5_14',   name:'Optativa V',                             code:'—',         period:9,  hours:'—',    pre:[],                              unlocks:[],  optional:true},
   {id:'lab_cmd',   name:'Lab. Comandos Eletropneumáticos e Hid.', code:'ESTMA820',  period:9,  hours:'30h',  pre:['cmd_elet'],                    unlocks:[]},
   {id:'opt6_14',   name:'Optativa VI',                            code:'—',         period:9,  hours:'—',    pre:[],                              unlocks:[],  optional:true},
   {id:'opt7_14',   name:'Optativa VII',                           code:'—',         period:9,  hours:'—',    pre:[],                              unlocks:[],  optional:true},
-  {id:'auto_sup',  name:'Automação e Supervisão de Proc.',        code:'ESTMA026',  period:9,  hours:'45h',  pre:['mod_sim'],                     unlocks:[]},
+  {id:'auto_sup',  name:'Automação e Supervisão de Proc.',        code:'ESTEMA026', period:9,  hours:'45h',  pre:['mod_sim'],                     unlocks:[]},
 
   // ── 10º PERÍODO ──
   {id:'tcc2',      name:'TCC II',                                 code:'ESTEMA046', period:10, hours:'45h',  pre:['tcc1'],                        unlocks:[]},
-  {id:'top_esp2',  name:'Tópicos Especiais em ECA II',            code:'ESTEMA102', period:10, hours:'60h',  pre:['top_esp1'],                    unlocks:[]},
+  {id:'top_esp2',  name:'Tópicos Especiais em ECA II',            code:'ESTEMA102', period:10, hours:'60h',  pre:['com_exp','fis1','quim','alglin1','prog1','intro_amb','intro_eca','calc1','intro_econ','fis2','intro_adm','alglin2','prog2','des_bas','prob_est','calc2','mec1','fis3','lab_fis1','mec_flu','prat_prof','intro_mat','empreend','calc3','intro_ca','mec_sol','fis4','lab_fis2','circ1','lab_circ1','calc_num','sist_din','calc4','cont1','lab_cont1','lab_circ2','elet_ana','inst_ind','lab_inst','lab_elet_ana','sinais','cont2','lab_cont2','sist_pot','elet_dig','lab_elet_dig','proc_trans','eletromag','mod_sim'], unlocks:[]},
   {id:'opt8_14',   name:'Optativa VIII',                          code:'—',         period:10, hours:'—',    pre:[],                              unlocks:[],  optional:true},
   {id:'opt9_14',   name:'Optativa IX',                            code:'—',         period:10, hours:'—',    pre:[],                              unlocks:[],  optional:true},
   {id:'opt10_14',  name:'Optativa X',                             code:'—',         period:10, hours:'—',    pre:[],                              unlocks:[],  optional:true},
@@ -254,6 +254,11 @@ const EQUIV14={
   'ESTEEL057':'inst_ind',     // Instrumentação Industrial (equiv ESTEMA005)
   'ESTEEL022':'sist_pot',     // Sist. Eletrônicos de Potência (equiv ESTEMT006)
   'ESTEEL0503':'eletromag',   // Eletromagnetismo (equiv ESTEEL013)
+  // TCC e Tópicos Especiais — códigos equivalentes/alternativos
+  'ESTEMA023':'tcc1',     'ESTEMT018':'tcc1',     'ESTEMA803':'tcc1',
+  'ESTEMA025':'tcc2',     'ESTEMT022':'tcc2',     'ESTEMA902':'tcc2',
+  'ESTEMA101':'top_esp1', 'ESTEMT028':'top_esp1', 'ESTEMA804':'top_esp1',
+  'ESTEMA903':'top_esp2',
 };
 
 // ── CODE MAP (histórico code → subject id in grade 2014) ────────────────────
@@ -303,9 +308,10 @@ const CM={
   // 8º Período
   'ESTEMA021':'estagio2', 'ESTEMA031':'cmd_elet', 'ESTEMA017':'gest_op',
   // 9º Período
-  'ESTMA036':'tcc1',      'ESTEMA036':'tcc1',     'ESTMA100':'top_esp1',
-  'ESTEMA100':'top_esp1', 'ESTMA820':'lab_cmd',
-  'ESTMA026':'auto_sup',  'ESTEMA026':'auto_sup',
+  'ESTEMA036':'tcc1',  'ESTMA036':'tcc1',
+  'ESTEMA100':'top_esp1', 'ESTMA100':'top_esp1',
+  'ESTMA820':'lab_cmd',
+  'ESTEMA026':'auto_sup', 'ESTMA026':'auto_sup',
   // 10º Período
   'ESTEMA046':'tcc2',     'ESTEMA102':'top_esp2',
   // Disciplinas fora da grade 2014 → null (optativas / grade 2023)
