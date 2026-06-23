@@ -40,8 +40,9 @@ async function exportPNG(scale){
     ctx.drawImage(canvas, pad, pad);
 
     const date = new Date().toISOString().slice(0, 10);
+    const slug = G.toLowerCase().replace('_', '-');
     const a = document.createElement('a');
-    a.download = `grade-eca-${G}-${scale}x-${date}.png`;
+    a.download = `grade-${slug}-${scale}x-${date}.png`;
     a.href = out.toDataURL('image/png');
     a.click();
     showToast(`PNG ${scale}× exportado!`, 'ok');
@@ -157,14 +158,17 @@ function exportSVG(){
     const isOptSlot = sub.optional === true;
     const hasRealSub = isOptSlot && !!d.subjectName;
 
-    const opacity = d.status === 'done' ? 0.32 : d.status === 'failed' ? 0.48 : 1;
-    const isDashed = d.status === 'done' || d.status === 'failed' || (isOptSlot && !hasRealSub);
+    const opacity = d.status === 'done' ? 0.32 : 1;
+    const isDashed = d.status === 'done' || d.status === 'trancado' || (isOptSlot && !hasRealSub);
 
     const g = se('g', { 'data-id': sub.id, opacity });
 
     // Card background rect
+    const isFailed = d.status === 'failed';
     g.appendChild(se('rect', { x: cx, y: cy, width: cw, height: ch, rx: 10,
-      fill: C.surface, stroke: pColor + '40', 'stroke-width': 1,
+      fill: isFailed ? 'rgba(255,107,107,0.07)' : C.surface,
+      stroke: isFailed ? 'rgba(255,107,107,0.55)' : (isDashed ? C.muted + '55' : pColor + '40'),
+      'stroke-width': isFailed ? 1.5 : 1,
       ...(isDashed ? { 'stroke-dasharray': '5,3' } : {}),
     }));
 
@@ -245,8 +249,8 @@ function exportSVG(){
     }
 
     // Status icon (top-right corner)
-    const sIcon  = { done: '✓', enrolled: '▶', failed: '↺' };
-    const sColor = { done: C.green, enrolled: C.accent, failed: C.yellow };
+    const sIcon  = { done: '✓', enrolled: '▶', failed: '↺', trancado: '↩' };
+    const sColor = { done: C.green, enrolled: C.accent, failed: C.red, trancado: C.muted };
     if(sIcon[d.status]){
       g.appendChild(st(sIcon[d.status], {
         x: cx + cw - 9, y: cy + 13,
@@ -278,8 +282,9 @@ function exportSVG(){
     new XMLSerializer().serializeToString(SVG);
   const blob = new Blob([svgStr], { type: 'image/svg+xml;charset=utf-8' });
   const date = new Date().toISOString().slice(0, 10);
+  const slug = G.toLowerCase().replace('_', '-');
   const a = document.createElement('a');
-  a.download = `grade-eca-${G}-${date}.svg`;
+  a.download = `grade-${slug}-${date}.svg`;
   a.href = URL.createObjectURL(blob);
   a.click();
   URL.revokeObjectURL(a.href);
