@@ -1,15 +1,15 @@
-# Matriz Curricular — ECA/UEA
+# AutoGrade UEA
 
-Ferramenta web para acompanhamento da grade curricular do curso de **Engenharia de Controle e Automação** da Universidade do Estado do Amazonas (UEA). Roda 100% no navegador — sem servidor, sem login, nenhum dado sai do computador.
+Ferramenta web para acompanhamento das grades curriculares da Universidade do Estado do Amazonas (UEA). Suporta múltiplos cursos e grades. Roda 100% no navegador — sem servidor, sem login, nenhum dado sai do computador.
 
-![Grade 2014](https://img.shields.io/badge/Grade-2014-a29bfe) ![Grade 2023](https://img.shields.io/badge/Grade-2023-45aaf2) ![Vanilla JS](https://img.shields.io/badge/stack-HTML%20%2F%20CSS%20%2F%20JS-fdcb6e) ![Sem build](https://img.shields.io/badge/build-nenhum-26de81)
+![ECA 2014](https://img.shields.io/badge/ECA-2014-a29bfe) ![ECA 2023](https://img.shields.io/badge/ECA-2023-45aaf2) ![Computação 2018](https://img.shields.io/badge/Computação-2018-26de81) ![Vanilla JS](https://img.shields.io/badge/stack-HTML%20%2F%20CSS%20%2F%20JS-fdcb6e) ![Sem build](https://img.shields.io/badge/build-nenhum-fd79a8)
 
 ---
 
 ## Funcionalidades
 
 ### Grade interativa
-- Duas grades completas: **2014** e **2023**, alternáveis por abas
+- Três grades completas: **ECA 2014**, **ECA 2023** e **Computação 2018**, alternáveis por abas
 - Colunas por período (1º–10º), cores por período ou por status
 - Orientação **horizontal** (padrão) ou **vertical**
 - Tamanho de card e espaçamento configuráveis
@@ -94,10 +94,10 @@ Cada disciplina é um objeto:
 
 ```js
 {
-  id:       'cont1',            // identificador interno único
+  id:       'cont1',            // identificador interno único (cp_ prefix para Computação)
   name:     'Controle I',       // nome exibido
   code:     'ESTEMT003',        // código oficial UEA
-  period:   5,                  // período na grade (0 = optativa sem slot)
+  period:   5,                  // período na grade
   hours:    '60h',              // carga horária
   pre:      ['fis1'],           // pré-requisitos (ids)
   unlocks:  ['cont2','lab_cont1','lab_cont2'], // o que esta disciplina libera
@@ -105,11 +105,14 @@ Cada disciplina é um objeto:
 }
 ```
 
-**`OPT14`** — catálogo com todas as 42 optativas oficiais da grade 2014, incluindo nomes e pré-requisitos em código UEA. Usado durante a importação para identificar optativas no histórico.
+**`GRADES`** — objeto central que mapeia chave de grade → `{cm, opt, equiv}`:
+- `'ECA_2014'`, `'ECA_2023'`, `'CMP_2018'`
 
-**`EQUIV14`** — mapa de equivalências: códigos paralelos/alternativos que a UEA atribui à mesma disciplina em diferentes turmas ou períodos históricos.
+**`OPT_ECA` / `OPT_CMP`** — catálogos de optativas por curso (42 e 41 itens respectivamente), com nomes e pré-requisitos em código UEA. Usados na importação para identificar optativas no histórico.
 
-**`CM`** — mapa principal código → id, usado para as disciplinas obrigatórias.
+**`EQUIV_ECA`** — equivalências da grade ECA 2014: códigos paralelos/alternativos que a UEA usa para a mesma disciplina.
+
+**`CM_ECA` / `CM_CMP`** — mapas principais código → id por curso, usados nas disciplinas obrigatórias.
 
 ### `patchOptSlots()` (`render.js`)
 
@@ -132,11 +135,16 @@ Nenhuma dependência de build (npm, webpack, etc.).
 
 ## Dados verificados
 
-Os códigos e pré-requisitos da **grade 2014** foram conferidos contra os documentos oficiais da UEA:
-- *Todas as Matérias Obrigatórias* (EMA_2014 — 10 períodos, 55 disciplinas)
-- *Todas as Matérias Optativas* (42 optativas com fórmulas de pré-requisito)
+Os códigos e pré-requisitos foram conferidos contra os documentos oficiais da UEA:
 
-Inconsistências encontradas e corrigidas: 11 códigos errados, 4 pré-requisitos incorretos, 7 inconsistências nos `unlocks`.
+**ECA 2014** (EMA_2014 — 10 períodos, 55 obrigatórias + 10 slots optativos):
+- Inconsistências corrigidas: 11 códigos errados, 4 pré-requisitos incorretos, 7 inconsistências nos `unlocks`
+- 42 optativas com fórmulas de pré-requisito no catálogo `OPT_ECA`
+
+**Computação 2018** (ECP_2018 — 10 períodos, ~64 obrigatórias + 2 slots optativos):
+- Importado do portal Aluno Online da UEA (grade EST08MCPD)
+- 41 optativas no catálogo `OPT_CMP` (sem pré-requisitos declarados no portal)
+- `CM_CMP` inclui códigos de equivalência histórica (ESTECP00x → ESTCMPxxx)
 
 ---
 
@@ -145,6 +153,8 @@ Inconsistências encontradas e corrigidas: 11 códigos errados, 4 pré-requisito
 O projeto usa **Conventional Commits** (`feat:`, `fix:`, `refactor:`, etc.).
 
 Para adicionar suporte a outra grade:
-1. Adicionar o array em `DATA["XXXX"]` em `data.js` seguindo o mesmo schema
-2. Adicionar o botão de aba em `index.html`
-3. Popular o `CM` com os mapeamentos de código → id para a nova grade
+1. Adicionar o array em `DATA["XXXX"]` em `data.js` (use prefixo de ID único, ex: `cp_` para Computação)
+2. Criar `const CM_XXXX = {...}` com o mapa código → id da nova grade
+3. Criar `const OPT_XXXX = {...}` se houver optativas com catálogo
+4. Adicionar entrada em `GRADES`: `'XXXX': {cm: CM_XXXX, opt: OPT_XXXX}`
+5. Adicionar botão de aba em `index.html` com `switchGrade('XXXX', this)`

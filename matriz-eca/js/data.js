@@ -14,7 +14,7 @@ const PC=[null,
 
 // ── DATA ─────────────────────────────────────────────────────────────────────
 const DATA={
-"2014":[
+"ECA_2014":[
   // ── 1º PERÍODO ──
   {id:'com_exp',   name:'Comunicação e Expressão',              code:'ESTBAS006', period:1,  hours:'60h',  pre:[],                              unlocks:[]},
   {id:'fis1',      name:'Física I',                              code:'ESTBAS007', period:1,  hours:'60h',  pre:[],                              unlocks:['fis2','mec1','cont1','lab_cont1']},
@@ -110,7 +110,7 @@ const DATA={
   {id:'opt9_14',   name:'Optativa IX',                            code:'—',         period:10, hours:'—',    pre:[],                              unlocks:[],  optional:true},
   {id:'opt10_14',  name:'Optativa X',                             code:'—',         period:10, hours:'—',    pre:[],                              unlocks:[],  optional:true},
 ],
-"2023":[
+"ECA_2023":[
   {id:'com_exp_23',  name:'Comunicação e Expressão',        code:'ESTBAS006', period:1,hours:'60h', pre:[],unlocks:['prat_prof_23']},
   {id:'intro_eca_23',name:'Intro. Eng. Controle e Aut.',    code:'ESTEMA103', period:1,hours:'30h', pre:[],unlocks:[]},
   {id:'intro_amb_23',name:'Intro. Ciências do Ambiente',    code:'ESTEBAS004',period:1,hours:'30h', pre:[],unlocks:[]},
@@ -191,10 +191,100 @@ const DATA={
 ]
 };
 
+// ── COMPUTAÇÃO 2018 (ECP_2018 / EST08MCPD) ───────────────────────────────────
+// All IDs prefixed with cp_ to avoid localStorage collision with ECA subjects.
+DATA["CMP_2018"]=[
+  // ── 1º PERÍODO ──
+  {id:'cp_alglin1',    name:'Álgebra Linear I',                          code:'ESTBAS001', period:1,  hours:'60h',  pre:[],                unlocks:['cp_alglin2']},
+  {id:'cp_calc1',      name:'Cálculo I',                                 code:'ESTBAS002', period:1,  hours:'90h',  pre:[],                unlocks:['cp_calc2','cp_prob_est']},
+  {id:'cp_intro_eng',  name:'Introdução à Engenharia',                   code:'ESTBAS003', period:1,  hours:'30h',  pre:[],                unlocks:[]},
+  {id:'cp_intro_amb',  name:'Introdução às Ciências do Ambiente',        code:'ESTBAS004', period:1,  hours:'30h',  pre:[],                unlocks:[]},
+  {id:'cp_quim',       name:'Química Geral',                             code:'ESTBAS005', period:1,  hours:'60h',  pre:[],                unlocks:[]},
+  {id:'cp_com_exp',    name:'Comunicação e Expressão',                   code:'ESTBAS006', period:1,  hours:'60h',  pre:[],                unlocks:[]},
+  {id:'cp_fis1',       name:'Física I',                                  code:'ESTBAS007', period:1,  hours:'60h',  pre:[],                unlocks:['cp_fis2']},
+  {id:'cp_prog1',      name:'Introdução a Programação de Computadores',  code:'ESTCMP009', period:1,  hours:'60h',  pre:[],                unlocks:['cp_prog2']},
+
+  // ── 2º PERÍODO ──
+  {id:'cp_alglin2',    name:'Álgebra Linear II',                         code:'ESTBAS008', period:2,  hours:'60h',  pre:['cp_alglin1'],     unlocks:[]},
+  {id:'cp_calc2',      name:'Cálculo II',                                code:'ESTBAS009', period:2,  hours:'75h',  pre:['cp_calc1'],       unlocks:['cp_circ1','cp_calc_comp']},
+  {id:'cp_des_bas',    name:'Desenho Básico',                            code:'ESTBAS010', period:2,  hours:'60h',  pre:[],                unlocks:[]},
+  {id:'cp_intro_adm',  name:'Introdução à Administração',                code:'ESTBAS011', period:2,  hours:'45h',  pre:[],                unlocks:['cp_empr']},
+  {id:'cp_prob_est',   name:'Probabilidade e Estatística',               code:'ESTBAS050', period:2,  hours:'60h',  pre:['cp_calc1'],       unlocks:['cp_sim_desemp']},
+  {id:'cp_fis2',       name:'Física II',                                 code:'ESTBAS013', period:2,  hours:'60h',  pre:['cp_fis1'],        unlocks:['cp_fis3','cp_lab_fis1','cp_mec']},
+  {id:'cp_intro_econ', name:'Introdução à Economia',                     code:'ESTBAS017', period:2,  hours:'45h',  pre:[],                unlocks:[]},
+  {id:'cp_prog2',      name:'Programação de Computadores e Algoritmos',  code:'ESTCMP010', period:2,  hours:'60h',  pre:['cp_prog1'],       unlocks:['cp_aesd1','cp_pp']},
+
+  // ── 3º PERÍODO ──
+  {id:'cp_aesd1',      name:'Algoritmos e Estrutura de Dados I',         code:'ESTCMP011', period:3,  hours:'60h',  pre:['cp_prog2'],       unlocks:['cp_aesd2']},
+  {id:'cp_pp',         name:'Projeto de Programas',                      code:'ESTCMP021', period:3,  hours:'60h',  pre:['cp_prog2'],       unlocks:['cp_mps','cp_ihc']},
+  {id:'cp_mat_disc',   name:'Matemática Discreta',                       code:'ESTCMP029', period:3,  hours:'60h',  pre:[],                unlocks:['cp_ftc','cp_grafos']},
+  {id:'cp_circ1',      name:'Circuitos Elétricos I',                     code:'ESTEEL507', period:3,  hours:'60h',  pre:['cp_calc2'],       unlocks:['cp_elet1','cp_sd1']},
+  {id:'cp_fis3',       name:'Física III',                                code:'ESTBAS015', period:3,  hours:'60h',  pre:['cp_fis2'],        unlocks:[]},
+  {id:'cp_lab_fis1',   name:'Laboratório de Física I',                   code:'ESTBAS101', period:3,  hours:'30h',  pre:['cp_fis2'],        unlocks:[]},
+  {id:'cp_calc_comp',  name:'Cálculo para Computação',                   code:'ESTECP103', period:3,  hours:'60h',  pre:['cp_calc2'],       unlocks:['cp_calc_num','cp_sinais']},
+  {id:'cp_comp_eth',   name:'Computação, Ética, Homem e Sociedade',      code:'ESTCMP050', period:3,  hours:'60h',  pre:[],                unlocks:[]},
+
+  // ── 4º PERÍODO ──
+  {id:'cp_calc_num',   name:'Cálculo Numérico',                          code:'ESTBAS049', period:4,  hours:'60h',  pre:['cp_calc_comp'],   unlocks:[]},
+  {id:'cp_aesd2',      name:'Algoritmos e Estrutura de Dados II',        code:'ESTCMP012', period:4,  hours:'60h',  pre:['cp_aesd1'],       unlocks:['cp_paa','cp_bd1']},
+  {id:'cp_mps',        name:'Modelagem e Projeto de Sistemas',           code:'ESTCMP024', period:4,  hours:'60h',  pre:['cp_pp'],          unlocks:['cp_es']},
+  {id:'cp_ftc',        name:'Fundamentos Teóricos da Computação',        code:'ESTCMP030', period:4,  hours:'60h',  pre:['cp_mat_disc'],    unlocks:['cp_ia1']},
+  {id:'cp_elet1',      name:'Eletrônica I',                              code:'ESTEEL508', period:4,  hours:'60h',  pre:['cp_circ1'],       unlocks:[]},
+  {id:'cp_sd1',        name:'Sistemas Digitais para Computação I',       code:'ESTCMP040', period:4,  hours:'60h',  pre:['cp_circ1'],       unlocks:['cp_sd2','cp_org_comp']},
+  {id:'cp_met_cien',   name:'Metodologia Científica para Computação',    code:'ESTCMP051', period:4,  hours:'60h',  pre:[],                unlocks:[]},
+
+  // ── 5º PERÍODO ──
+  {id:'cp_paa',        name:'Projeto e Análise de Algoritmos',           code:'ESTCMP013', period:5,  hours:'60h',  pre:['cp_aesd2'],       unlocks:['cp_redes1']},
+  {id:'cp_bd1',        name:'Banco de Dados I',                          code:'ESTCMP022', period:5,  hours:'60h',  pre:['cp_aesd2'],       unlocks:[]},
+  {id:'cp_grafos',     name:'Teoria dos Grafos',                         code:'ESTCMP014', period:5,  hours:'60h',  pre:['cp_mat_disc'],    unlocks:[]},
+  {id:'cp_sim_desemp', name:'Simulação e Análise de Desempenho',         code:'ESTCMP015', period:5,  hours:'60h',  pre:['cp_prob_est'],    unlocks:[]},
+  {id:'cp_sd2',        name:'Sistemas Digitais para Computação II',      code:'ESTCMP041', period:5,  hours:'60h',  pre:['cp_sd1'],         unlocks:['cp_emb']},
+  {id:'cp_sinais',     name:'Sinais e Sistemas',                         code:'ESTEEL012', period:5,  hours:'60h',  pre:['cp_calc_comp'],   unlocks:['cp_ctrl1','cp_pds']},
+  {id:'cp_org_comp',   name:'Organização de Computadores',               code:'ESTCMP003', period:5,  hours:'60h',  pre:['cp_sd1'],         unlocks:['cp_so1','cp_arq_comp']},
+  {id:'cp_mec',        name:'Fundamentos de Mecânica dos Sólidos e Fluídos', code:'ESTECI055', period:5, hours:'60h', pre:['cp_fis2'],      unlocks:[]},
+
+  // ── 6º PERÍODO ──
+  {id:'cp_hsa',        name:'Homem, Sociedade e Meio-Ambiente ou Tecnologia', code:'ESTECP116', period:6, hours:'60h', pre:[],              unlocks:[]},
+  {id:'cp_ihc',        name:'Interação Homem - Computador',              code:'ESTCMP027', period:6,  hours:'60h',  pre:['cp_pp'],          unlocks:[]},
+  {id:'cp_ia1',        name:'Inteligência Artificial I',                 code:'ESTCMP031', period:6,  hours:'60h',  pre:['cp_ftc'],         unlocks:[]},
+  {id:'cp_es',         name:'Engenharia de Software',                    code:'ESTCMP025', period:6,  hours:'60h',  pre:['cp_mps'],         unlocks:['cp_top1','cp_top2','cp_top3','cp_top4']},
+  {id:'cp_ctrl1',      name:'Sistemas de Controle I',                    code:'ESTEEL018', period:6,  hours:'60h',  pre:['cp_sinais'],      unlocks:[]},
+  {id:'cp_so1',        name:'Sistemas Operacionais I',                   code:'ESTCMP007', period:6,  hours:'60h',  pre:['cp_org_comp'],    unlocks:[]},
+  {id:'cp_arq_comp',   name:'Arquitetura de Computadores',               code:'ESTCMP004', period:6,  hours:'60h',  pre:['cp_org_comp'],    unlocks:[]},
+  {id:'cp_mat_intro',  name:'Introdução à Ciência dos Materiais',        code:'ESTECP120', period:6,  hours:'60h',  pre:[],                unlocks:[]},
+
+  // ── 7º PERÍODO ──
+  {id:'cp_pds',        name:'Processamento Digital de Sinais',           code:'ESTEEL030', period:7,  hours:'60h',  pre:['cp_sinais'],      unlocks:['cp_cg_pdi']},
+  {id:'cp_emb',        name:'Desenvolvimento de Sistemas Embarcados',    code:'ESTCMP042', period:7,  hours:'60h',  pre:['cp_sd2'],         unlocks:['cp_auto_ind']},
+  {id:'cp_redes1',     name:'Redes de Computadores I',                   code:'ESTCMP016', period:7,  hours:'60h',  pre:['cp_paa'],         unlocks:['cp_spd','cp_redes2','cp_telecom']},
+  {id:'cp_top1',       name:'Tópicos Especiais para Computação I',       code:'ESTCMP068', period:7,  hours:'60h',  pre:['cp_es'],          unlocks:[]},
+
+  // ── 8º PERÍODO ──
+  {id:'cp_cg_pdi',     name:'Computação Gráfica e PDI',                  code:'ESTECP127', period:8,  hours:'60h',  pre:['cp_pds'],         unlocks:[]},
+  {id:'cp_empr',       name:'Empreendedorismo Digital I',                code:'ESTCMP034', period:8,  hours:'60h',  pre:['cp_intro_adm'],   unlocks:[]},
+  {id:'cp_spd',        name:'Sistemas Paralelos e Distribuídos',         code:'ESTCMP020', period:8,  hours:'60h',  pre:['cp_redes1'],      unlocks:[]},
+  {id:'cp_redes2',     name:'Redes de Computadores II',                  code:'ESTECP130', period:8,  hours:'60h',  pre:['cp_redes1'],      unlocks:[]},
+  {id:'cp_top2',       name:'Tópicos Especiais para Computação II',      code:'ESTCMP069', period:8,  hours:'60h',  pre:['cp_es'],          unlocks:[]},
+  {id:'opt1_cp',       name:'Optativa I',                                code:'—',         period:8,  hours:'—',    pre:[],                unlocks:[],  optional:true},
+
+  // ── 9º PERÍODO ──
+  {id:'cp_top3',       name:'Tópicos Especiais para Computação III',     code:'ESTCMP070', period:9,  hours:'60h',  pre:['cp_es'],          unlocks:[]},
+  {id:'cp_telecom',    name:'Sistemas de Telecomunicações',              code:'ESTEEL024', period:9,  hours:'60h',  pre:['cp_redes1'],      unlocks:[]},
+  {id:'cp_tcc1',       name:'TCC I',                                     code:'ESTCMP052', period:9,  hours:'45h',  pre:['cp_alglin1','cp_calc1','cp_intro_eng','cp_intro_amb','cp_quim','cp_com_exp','cp_fis1','cp_prog1','cp_alglin2','cp_calc2','cp_des_bas','cp_intro_adm','cp_prob_est','cp_fis2','cp_intro_econ','cp_prog2','cp_aesd1','cp_pp','cp_mat_disc','cp_circ1','cp_fis3','cp_lab_fis1','cp_calc_comp','cp_comp_eth','cp_calc_num','cp_aesd2','cp_mps','cp_ftc','cp_elet1','cp_sd1','cp_met_cien','cp_paa','cp_bd1','cp_grafos','cp_sim_desemp','cp_sd2','cp_sinais','cp_org_comp','cp_mec','cp_hsa','cp_ia1','cp_es','cp_ctrl1','cp_so1','cp_arq_comp','cp_mat_intro','cp_pds','cp_emb','cp_redes1','cp_top1','cp_cg_pdi','cp_empr','cp_spd','cp_redes2','cp_top2'], unlocks:['cp_tcc2']},
+  {id:'cp_est1',       name:'Estágio Supervisionado em Eng. Computação I', code:'ESTECP135', period:9,  hours:'450h', pre:['cp_alglin1','cp_calc1','cp_intro_eng','cp_intro_amb','cp_quim','cp_com_exp','cp_fis1','cp_prog1','cp_alglin2','cp_calc2','cp_des_bas','cp_intro_adm','cp_prob_est','cp_fis2','cp_intro_econ','cp_prog2','cp_aesd1','cp_pp','cp_mat_disc','cp_circ1','cp_fis3','cp_lab_fis1','cp_calc_comp','cp_comp_eth','cp_calc_num','cp_aesd2','cp_mps','cp_ftc','cp_elet1','cp_sd1','cp_met_cien','cp_paa','cp_bd1','cp_grafos','cp_sim_desemp','cp_sd2','cp_sinais','cp_org_comp','cp_mec','cp_hsa','cp_ihc','cp_ia1','cp_es','cp_so1','cp_arq_comp','cp_mat_intro'], unlocks:['cp_est2']},
+  {id:'opt2_cp',       name:'Optativa II',                               code:'—',         period:9,  hours:'—',    pre:[],                unlocks:[],  optional:true},
+
+  // ── 10º PERÍODO ──
+  {id:'cp_tcc2',       name:'TCC II',                                    code:'ESTCMP053', period:10, hours:'45h',  pre:['cp_tcc1'],        unlocks:[]},
+  {id:'cp_auto_ind',   name:'Automação Industrial',                      code:'ESTECP139', period:10, hours:'60h',  pre:['cp_emb'],         unlocks:[]},
+  {id:'cp_est2',       name:'Estágio Supervisionado em Eng. Computação II', code:'ESTECP140', period:10, hours:'450h', pre:['cp_est1'],     unlocks:[]},
+  {id:'cp_top4',       name:'Tópicos Especiais em Computação IV',        code:'ESTECP136', period:10, hours:'60h',  pre:['cp_es'],          unlocks:[]},
+];
+
 // ── OPTATIVAS CATALOG (Grade 2014 — EST18MCAD EMA_2014) ─────────────────────
 // pre arrays use UEA official codes; patchOptSlots() resolves them to IDs at runtime.
-// Codes referencing OTHER optativas use the OPT14 key; obrigatórias use their CM code.
-const OPT14={
+// Codes referencing OTHER optativas use the OPT_ECA key; obrigatórias use their CM_ECA code.
+const OPT_ECA={
   'EST0826':   {name:'Língua Brasileira de Sinais (Libras)',         hours:'—',  pre:[]},
   'ESTECP014': {name:'Redes de Computadores I',                      hours:'—',  pre:[]},
   'ESTECP018': {name:'Redes de Computadores II',                     hours:'—',  pre:['ESTECP014']},
@@ -242,7 +332,7 @@ const OPT14={
 // ── GRADE-2014 EQUIVALENCES (old/parallel codes → subject id) ───────────────
 // These appear in PDFs when a student used an equivalent discipline to fulfil
 // a grade-2014 slot. Checked before CM so they never fall through to null.
-const EQUIV14={
+const EQUIV_ECA={
   'ESTEEL012':'sinais',       // Análise de Sinais e Sistemas (equiv ESTEMA002)
   'ESTEMA401':'sinais',       // idem (segunda equivalência)
   'ESTEEL009':'elet_dig',     // Eletrônica Digital (equiv ESTEMA009)
@@ -262,7 +352,7 @@ const EQUIV14={
 };
 
 // ── CODE MAP (histórico code → subject id in grade 2014) ────────────────────
-const CM={
+const CM_ECA={
   // 1º Período
   'ESTBAS006':'com_exp',
   'ESTBAS007':'fis1',
@@ -315,9 +405,127 @@ const CM={
   // 10º Período
   'ESTEMA046':'tcc2',     'ESTEMA102':'top_esp2',
   // Disciplinas fora da grade 2014 → null (optativas / grade 2023)
-  // Nota: ESTEMA502 foi removido daqui — é tratado por EQUIV14 (grade 2014)
+  // Nota: ESTEMA502 foi removido daqui — é tratado por EQUIV_ECA (grade 2014)
   //       e pelo fallback DATA[G] (grade 2023 → proc_fab_23)
   'ESTEMA300':null, 'ESTEMA302':null, 'ESTEEL0503':null, 'ESTEEL063':null,
   'ESTEMA033':null, 'ESTEMA039':null, 'ESTEEL021':null,  'ESTEMA030':null,
   'ESTEMT013':null, 'ESTEMT024':null, 'ESTEMA603':null,
+};
+
+// ── CMP_2018 OPTATIVAS CATALOG ────────────────────────────────────────────────
+const OPT_CMP={
+  'ESTCMP00233':{name:'Redes Neurais Artificiais',                       hours:'60h',  pre:[]},
+  'ESTCMP005':  {name:'Paradigmas de Linguagens de Programação',         hours:'60h',  pre:[]},
+  'ESTCMP023':  {name:'Banco de Dados II',                               hours:'60h',  pre:[]},
+  'ESTCMP064':  {name:'Oficina de Desenvolvimento de Sistemas I',        hours:'60h',  pre:[]},
+  'ESTCMP200':  {name:'Compiladores',                                    hours:'60h',  pre:[]},
+  'ESTCMP212':  {name:'Desenvolvimento de Drivers de Dispositivo',       hours:'60h',  pre:[]},
+  'ESTCMP213':  {name:'Computação Científica',                           hours:'60h',  pre:[]},
+  'ESTCMP215':  {name:'Teoria da Informação',                            hours:'60h',  pre:[]},
+  'ESTCMP216':  {name:'Programação Competitiva',                         hours:'60h',  pre:[]},
+  'ESTCMP225':  {name:'Ciência de Dados I',                              hours:'60h',  pre:[]},
+  'ESTCMP226':  {name:'Ciência de Dados II',                             hours:'60h',  pre:[]},
+  'ESTCMP233':  {name:'Redes Neurais Artificiais',                       hours:'60h',  pre:[]},
+  'ESTCMP240':  {name:'Sistemas Colaborativos',                          hours:'60h',  pre:[]},
+  'ESTCMP241':  {name:'Computação Ubíqua e Pervasiva',                   hours:'60h',  pre:[]},
+  'ESTCMP242':  {name:'Introdução à Visão Computacional',                hours:'60h',  pre:[]},
+  'ESTCMP243':  {name:'Realidade Virtual Aumentada',                     hours:'60h',  pre:[]},
+  'ESTCMP244':  {name:'Introdução à Criptografia',                       hours:'60h',  pre:[]},
+  'ESTCMP245':  {name:'Computação Evolucionária',                        hours:'60h',  pre:[]},
+  'ESTCMP246':  {name:'Mineração de Dados',                              hours:'60h',  pre:[]},
+  'ESTCMP247':  {name:'Sistemas Fuzzy',                                  hours:'60h',  pre:[]},
+  'ESTCMP248':  {name:'Banco de Dados Não Relacionais',                  hours:'60h',  pre:[]},
+  'ESTCMP249':  {name:'Introdução à Robótica para Computação',           hours:'60h',  pre:[]},
+  'ESTCMP250':  {name:'Representação do Conhecimento',                   hours:'60h',  pre:[]},
+  'ESTCMP251':  {name:'Projeto Integrado de Hardware e Software',        hours:'60h',  pre:[]},
+  'ESTECP021':  {name:'Robótica Industrial',                             hours:'60h',  pre:[]},
+  'ESTECP024':  {name:'Tecnologia WEB',                                  hours:'60h',  pre:[]},
+  'ESTECP027':  {name:'Computação Gráfica',                              hours:'60h',  pre:[]},
+  'ESTECP030':  {name:'Arquiteturas Avançadas de Computadores',          hours:'60h',  pre:[]},
+  'ESTECP031':  {name:'Processamento de Imagens',                        hours:'60h',  pre:[]},
+  'ESTECP033':  {name:'Conceitos Gerais de Automação',                   hours:'60h',  pre:[]},
+  'ESTECP036':  {name:'Multimídia',                                      hours:'60h',  pre:[]},
+  'ESTECP039':  {name:'Realidade Virtual',                               hours:'60h',  pre:[]},
+  'ESTECP040':  {name:'Simulação de Sistemas',                           hours:'60h',  pre:[]},
+  'ESTECP042':  {name:'Sistemas de Informação Gráfica',                  hours:'60h',  pre:[]},
+  'ESTECP047':  {name:'Computação para Automação',                       hours:'60h',  pre:[]},
+  'ESTECP052':  {name:'Estágio Supervisionado em Eng. de Computação IV', hours:'450h', pre:[]},
+  'ESTECP144':  {name:'Libras',                                          hours:'60h',  pre:[]},
+  'ESTECP145':  {name:'Estágio Supervisionado em Eng. da Computação III',hours:'450h', pre:[]},
+  'ESTECP147':  {name:'Criptografia',                                    hours:'60h',  pre:[]},
+  'ESTECP149':  {name:'Desenvolvimento de Aplicativos Móveis',           hours:'60h',  pre:[]},
+  'ESTECP150':  {name:'Teste de Software',                               hours:'60h',  pre:[]},
+};
+
+// ── CMP_2018 CODE MAP (histórico code → subject id) ──────────────────────────
+const CM_CMP={
+  // 1º Período
+  'ESTBAS001':'cp_alglin1', 'ESTBAS002':'cp_calc1', 'ESTBAS003':'cp_intro_eng',
+  'ESTBAS004':'cp_intro_amb', 'ESTBAS005':'cp_quim', 'ESTBAS006':'cp_com_exp',
+  'ESTBAS007':'cp_fis1',    'ESTCMP009':'cp_prog1',
+  // 2º Período
+  'ESTBAS008':'cp_alglin2', 'ESTBAS009':'cp_calc2', 'ESTBAS010':'cp_des_bas',
+  'ESTBAS011':'cp_intro_adm','ESTBAS050':'cp_prob_est','ESTBAS012':'cp_prob_est',
+  'ESTBAS013':'cp_fis2',    'ESTBAS017':'cp_intro_econ','ESTCMP010':'cp_prog2',
+  // 3º Período
+  'ESTCMP011':'cp_aesd1',   'ESTCMP021':'cp_pp',    'ESTCMP029':'cp_mat_disc',
+  'ESTEEL507':'cp_circ1',   'ESTEEL001':'cp_circ1', 'ESTBAS015':'cp_fis3',
+  'ESTBAS101':'cp_lab_fis1','ESTECP103':'cp_calc_comp','ESTBAS019':'cp_calc_comp',
+  'ESTCMP050':'cp_comp_eth','ESTBAS022':'cp_comp_eth',
+  // 4º Período
+  'ESTBAS049':'cp_calc_num','ESTCMP012':'cp_aesd2', 'ESTCMP024':'cp_mps',
+  'ESTCMP030':'cp_ftc',     'ESTEEL508':'cp_elet1', 'ESTEEL005':'cp_elet1',
+  'ESTCMP040':'cp_sd1',     'ESTEEL009':'cp_sd1',   'ESTCMP051':'cp_met_cien',
+  // 5º Período
+  'ESTCMP013':'cp_paa',     'ESTCMP022':'cp_bd1',   'ESTCMP014':'cp_grafos',
+  'ESTCMP015':'cp_sim_desemp','ESTCMP041':'cp_sd2', 'ESTEEL012':'cp_sinais',
+  'ESTCMP003':'cp_org_comp','ESTECI055':'cp_mec',   'EST0502':'cp_mec',
+  // 6º Período
+  'ESTECP116':'cp_hsa',     'ESTCMP027':'cp_ihc',   'ESTECP025':'cp_ihc',
+  'ESTCMP031':'cp_ia1',     'ESTCMP025':'cp_es',    'ESTEEL018':'cp_ctrl1',
+  'ESTCMP007':'cp_so1',     'ESTECP009':'cp_so1',   'ESTCMP004':'cp_arq_comp',
+  'ESTECP120':'cp_mat_intro',
+  // 7º Período
+  'ESTEEL030':'cp_pds',     'ESTCMP042':'cp_emb',   'ESTCMP016':'cp_redes1',
+  'ESTECP014':'cp_redes1',  'ESTCMP068':'cp_top1',
+  // 8º Período
+  'ESTECP127':'cp_cg_pdi',  'ESTCMP034':'cp_empr',  'ESTCMP020':'cp_spd',
+  'ESTECP130':'cp_redes2',  'ESTECP018':'cp_redes2','ESTCMP069':'cp_top2',
+  // 9º Período
+  'ESTCMP070':'cp_top3',    'ESTEEL024':'cp_telecom','ESTECP023':'cp_telecom',
+  'ESTCMP052':'cp_tcc1',    'ESTECP135':'cp_est1',
+  // 10º Período
+  'ESTCMP053':'cp_tcc2',    'ESTECP139':'cp_auto_ind','ESTECP140':'cp_est2',
+  'ESTECP136':'cp_top4',
+  // Equivalences — old/parallel codes map to same subject
+  'ESTECP058':'cp_prog1',   'ESTECP001':'cp_prog1',
+  'ESTECP059':'cp_prog2',   'ESTECP002':'cp_prog2',
+  'ESTECP100':'cp_aesd1',   'ESTECP101':'cp_pp',
+  'ESTECP102':'cp_mat_disc','ESTECP004':'cp_mat_disc',
+  'ESTECP105':'cp_aesd2',   'ESTECP106':'cp_mps',
+  'ESTECP107':'cp_ftc',     'ESTECP006':'cp_ftc',
+  'ESTECP108':'cp_sd1',     'ESTECP109':'cp_met_cien',
+  'ESTECP110':'cp_paa',     'ESTECP012':'cp_paa',
+  'ESTECP111':'cp_bd1',     'ESTECP010':'cp_bd1',
+  'ESTECP112':'cp_grafos',  'ESTECP113':'cp_sim_desemp','ESTBAS021':'cp_sim_desemp',
+  'ESTECP114':'cp_sd2',     'ESTEEL064':'cp_sd2',
+  'ESTECP115':'cp_org_comp','ESTECP008':'cp_org_comp',
+  'ESTECP117':'cp_ia1',     'ESTECP118':'cp_es',   'ESTECP015':'cp_es',
+  'ESTECP121':'cp_arq_comp','ESTECP124':'cp_emb',   'ESTECP038':'cp_emb',
+  'ESTECP126':'cp_top1',    'ESTECP044':'cp_top1',
+  'ESTECP128':'cp_empr',    'ESTBAS035':'cp_empr',
+  'ESTECP129':'cp_spd',     'ESTECP013':'cp_spd',
+  'ESTECP131':'cp_top2',    'ESTECP132':'cp_top3',
+  'ESTECP026':'cp_tcc1',    'ESTECP134':'cp_tcc1',
+  'ESTECP138':'cp_tcc2',    'ESTECP028':'cp_tcc2',
+  // Codes in CMP PDFs that are NOT in CMP_2018 grade (optativas handled separately)
+  'ESTBAS016':null, 'ESTBAS018':null, 'ESTBAS020':null,
+};
+
+// ── GRADES METADATA ───────────────────────────────────────────────────────────
+// Maps grade key → {cm, opt, equiv} used by import.js and render.js.
+const GRADES={
+  'ECA_2014':{cm:CM_ECA, opt:OPT_ECA, equiv:EQUIV_ECA},
+  'ECA_2023':{cm:{}},
+  'CMP_2018':{cm:CM_CMP, opt:OPT_CMP},
 };
