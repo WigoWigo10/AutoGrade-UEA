@@ -77,15 +77,20 @@ function parseHistorico(text){
   const APROV  = ['Aprov','Dispe','Dispensado','Aprovado'];
   const REPROV = ['Rep N','Rep F','Reprovado'];
   const MATRIC = ['Matriculado'];
-  const SKIP   = ['Cance','Tranc','Cancelado','Trancado'];
+  const TRANC  = ['Tranc','Trancado'];
+  const SKIP   = ['Cance','Cancelado'];
 
   const matched   = new Map();
   const optFound  = [];
   const unmatched = [];
 
   let currentSemester = '';
-
   const processedLines = new Set();
+
+  const gradeMap   = GRADES[G]||{};
+  const optCatalog = gradeMap.opt||{};
+  const equivMap   = gradeMap.equiv||{};
+  const cm         = gradeMap.cm||{};
 
   for(let i=0; i<lines.length; i++){
     const line = lines[i];
@@ -114,23 +119,28 @@ function parseHistorico(text){
     if(APROV.some(s=>codeOwnerLine.includes(s))) status='done';
     else if(REPROV.some(s=>codeOwnerLine.includes(s))) status='failed';
     else if(MATRIC.some(s=>codeOwnerLine.includes(s))) status='enrolled';
+    else if(TRANC.some(s=>codeOwnerLine.includes(s))) status='trancado';
     if(!status){
       if(APROV.some(s=>window3.includes(s))) status='done';
       else if(REPROV.some(s=>window3.includes(s))) status='failed';
       else if(MATRIC.some(s=>window3.includes(s))) status='enrolled';
+      else if(TRANC.some(s=>window3.includes(s))) status='trancado';
     }
     if(!status) continue;
 
     processedLines.add(code+currentSemester);
 
-    // Grade: code's own line first, fall back to window3
+    // Grade: code's own line first, fall back to window3.
+    // Trancado never has a grade — skip extraction to avoid picking up a neighbor's grade.
     const gradeRe = /\b(\d{1,2}[.,]\d{1,2})\s*(?:Aprov|Rep|Dispe)/i;
     let grade = '';
-    const gm = codeOwnerLine.match(gradeRe) || window3.match(gradeRe);
-    if(gm) grade = gm[1].replace(',','.');
-    if(!grade){
-      const gm2 = codeOwnerLine.match(/\b(\.\d{2})\s*(?:Rep)/i) || window3.match(/\b(\.\d{2})\s*(?:Rep)/i);
-      if(gm2) grade = '0'+gm2[1];
+    if(status !== 'trancado'){
+      const gm = codeOwnerLine.match(gradeRe) || window3.match(gradeRe);
+      if(gm) grade = gm[1].replace(',','.');
+      if(!grade){
+        const gm2 = codeOwnerLine.match(/\b(\.\d{2})\s*(?:Rep)/i) || window3.match(/\b(\.\d{2})\s*(?:Rep)/i);
+        if(gm2) grade = '0'+gm2[1];
+      }
     }
 
     const turmaM = codeOwnerLine.match(/\b([A-Z][A-Z0-9]{2,7}_T\d{2})\b/);
@@ -140,19 +150,19 @@ function parseHistorico(text){
     const ownerSemM = codeOwnerLine.match(/(\d{4})\s*[\/\\]\s*(\d)\b/);
     const semester = ownerSemM ? ownerSemM[1]+'/'+ownerSemM[2] : currentSemester;
 
-    // Check optativa catalog first (Grade 2014 only)
-    if(G==='2014' && OPT14[code]){
+    // Check optativa catalog (grades that define opt)
+    if(optCatalog[code]){
       if(!optFound.find(o=>o.code===code)){
         const chM = codeOwnerLine.match(/\b(30|45|60|75|90|120)\b/);
-        const hours = chM ? chM[1]+'h' : OPT14[code].hours;
-        optFound.push({code, name:OPT14[code].name, hours, status, grade, semester});
+        const hours = chM ? chM[1]+'h' : optCatalog[code].hours;
+        optFound.push({code, name:optCatalog[code].name, hours, status, grade, semester});
       }
       continue;
     }
 
-    // Check grade-2014 equivalences (parallel codes that fulfil a grade slot)
-    if(G==='2014' && EQUIV14[code]){
-      const eqId = EQUIV14[code];
+    // Check equivalences (parallel codes that fulfil a grade slot)
+    if(equivMap[code]){
+      const eqId = equivMap[code];
       const existing = matched.get(eqId);
       const priority = {done:3,enrolled:2,failed:1};
       const np = priority[status]||0, ep = existing ? priority[existing.status]||0 : 0;
@@ -166,7 +176,7 @@ function parseHistorico(text){
       continue;
     }
 
-    let subId = CM.hasOwnProperty(code) ? CM[code] : undefined;
+    let subId = cm.hasOwnProperty(code) ? cm[code] : undefined;
     if(subId===undefined){
       const found = DATA[G].find(s=>s.code===code||s.code===code.replace(/^EST/,'EST'));
       if(found) subId = found.id;
@@ -206,8 +216,8 @@ function parseHistorico(text){
   matched.forEach(({subId,code,status,grade,semester,subjectName,attempts})=>{
     const sub=DATA[G].find(s=>s.id===subId);
     const name=subjectName||(sub?.name||subId);
-    const icon=status==='done'?'✓':status==='enrolled'?'▶':'↺';
-    const cls=status==='failed'?'unmatched':'matched';
+    const icon=status==='done'?'✓':status==='enrolled'?'▶':status==='trancado'?'↩':'↺';
+    const cls=(status==='failed'||status==='trancado')?'unmatched':'matched';
     const optTag=sub?.optional?`<span style="font-size:.6rem;opacity:.5;margin-left:4px">OPT</span>`:'';
     const retryTag=attempts&&attempts.length>1?`<span style="font-size:.6rem;margin-left:6px;color:var(--yellow);opacity:.8">${attempts.length}x</span>`:'';
     resultsEl.innerHTML+=`<div class="iri ${cls}">${icon} <strong>${code}</strong> <span class="sub-name">${name}</span>${optTag}${retryTag} ${grade?`<span style="color:var(--muted);margin-left:auto">${grade}</span>`:''}</div>`;
@@ -228,13 +238,13 @@ function parseHistorico(text){
 
   if(total>0){
     const optMsg=optCount>0?` <span style="color:var(--accent2);font-size:.75rem">+ ${optCount} optativa(s)</span>`:'';
-    statusEl.innerHTML=`<span style="color:var(--green)">✓ ${total-optCount} matéria(s) obrigatória(s) identificada(s) na grade ${G}</span>${optMsg}`;
+    statusEl.innerHTML=`<span style="color:var(--green)">✓ ${total-optCount} matéria(s) obrigatória(s) identificada(s)</span>${optMsg}`;
     document.getElementById('import-confirm-btn').classList.add('show');
   } else {
     const foundCodes = [...text.matchAll(/\b(EST[A-Z]{2,6}\d{3,})\b/gi)].map(m=>m[1]).slice(0,5);
-    statusEl.innerHTML=`<span style="color:var(--yellow)">⚠ Nenhuma matéria da grade ${G} identificada.</span><br>
+    statusEl.innerHTML=`<span style="color:var(--yellow)">⚠ Nenhuma matéria da grade selecionada identificada.</span><br>
     <small style="opacity:.6">Códigos detectados no PDF: ${foundCodes.length>0?foundCodes.join(', '):'nenhum'}<br>
-    Verifique se a grade selecionada (${G}) está correta.</small>`;
+    Verifique se a grade selecionada está correta.</small>`;
   }
 }
 

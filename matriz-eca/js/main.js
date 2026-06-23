@@ -1,10 +1,16 @@
 // ── STATE ────────────────────────────────────────────────────────────────────
-let G='2014', activeSub=null, pendingImport=[];
+let G='ECA_2014', activeSub=null, pendingImport=[];
 let tt;
 
 // ── INIT ─────────────────────────────────────────────────────────────────────
 function init(){
   applyCfgOnLoad();
+  if(CFG.grade){
+    G=CFG.grade;
+    document.querySelectorAll('.tab-btn').forEach(b=>{
+      b.classList.toggle('active', (b.getAttribute('onclick')||'').includes(`'${G}'`));
+    });
+  }
   buildLegend();
   const chipsEl = document.getElementById('period-chips');
   for(let p=1;p<=10;p++){
@@ -29,7 +35,7 @@ function doSearch(q){
   track.classList.add('dimmed');
   document.querySelectorAll('.card').forEach(card=>{
     const n=card.querySelector('.card-name').textContent.toLowerCase();
-    const co=card.querySelector('.card-code').textContent.toLowerCase();
+    const co=(card.querySelector('.card-code')?.textContent||'').toLowerCase();
     card.classList.toggle('lit',n.includes(q)||co.includes(q));
   });
 }

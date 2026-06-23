@@ -1,8 +1,9 @@
 // ── OPT SLOT PATCH ───────────────────────────────────────────────────────────
-// Resolves OPT14.pre codes → internal IDs and injects them into DATA[G] opt
+// Resolves opt catalog pre codes → internal IDs and injects them into DATA[G] opt
 // slot entries so drawArrows() and hlChain() work without any extra changes.
 function patchOptSlots(){
-  if(G!=='2014') return;
+  const grade=GRADES[G]; if(!grade?.opt) return;
+  const cm=grade.cm||{}, equiv=grade.equiv||{}, optCatalog=grade.opt;
 
   const optIds=new Set(DATA[G].filter(s=>s.optional).map(s=>s.id));
 
@@ -24,18 +25,18 @@ function patchOptSlots(){
 
   // Resolve a prereq code to an internal subject/slot ID
   const resolve=code=>{
-    if(codeToSlot[code]) return codeToSlot[code];              // another optativa
-    if(CM.hasOwnProperty(code) && CM[code]) return CM[code];  // obrigatória via CM
-    if(EQUIV14[code]) return EQUIV14[code];                    // via equivalence map
+    if(codeToSlot[code]) return codeToSlot[code];
+    if(cm.hasOwnProperty(code) && cm[code]) return cm[code];
+    if(equiv[code]) return equiv[code];
     return null;
   };
 
-  // Set pre arrays on filled opt slots from OPT14 metadata
+  // Set pre arrays on filled opt slots from opt catalog metadata
   DATA[G].forEach(sub=>{
     if(!sub.optional) return;
     const d=getSub(sub.id);
     if(!d.subjectCode) return;
-    const opt=OPT14[d.subjectCode];
+    const opt=optCatalog[d.subjectCode];
     if(!opt||!opt.pre||!opt.pre.length) return;
     sub.pre=opt.pre.map(resolve).filter(Boolean);
   });
@@ -56,11 +57,13 @@ function buildLegend(){
   l.innerHTML=PC.slice(1).map((c,i)=>`<div class="legend-item"><div class="legend-dot" style="background:${c.main}"></div>${i+1}º Per.</div>`).join('')+
   `<div class="legend-item" style="margin-left:10px"><div class="legend-dot" style="background:var(--green)"></div>Concluída</div>
    <div class="legend-item"><div class="legend-dot" style="background:var(--accent)"></div>Cursando</div>
-   <div class="legend-item"><div class="legend-dot" style="background:var(--yellow)"></div>Reprovada (já tentei)</div>`;
+   <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div>Reprovada (já tentei)</div>
+   <div class="legend-item"><div class="legend-dot" style="background:var(--muted)"></div>Trancada</div>`;
 }
 
 function switchGrade(g,btn){
   G=g;
+  CFG.grade=g; saveCfg();
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   document.getElementById('search').value='';
@@ -91,7 +94,7 @@ function render(){
   if(CFG.nextAvail){
     subs.forEach(sub=>{
       const d=getSub(sub.id);
-      if(d.status!=='pending') return;
+      if(d.status!=='pending' && d.status!=='trancado') return;
       const allPreDone=(sub.pre||[]).every(pid=>getSub(pid).status==='done');
       if(allPreDone && (sub.pre||[]).length>0) nextAvailSet.add(sub.id);
     });
@@ -174,7 +177,7 @@ function render(){
         let codeHtml=CFG.showCode?`<div class="card-code" style="color:${c.main}">${displayCode}</div>`:'';
         let hoursHtml=CFG.showHours?`<div class="card-hours">${displayHours}</div>`:'';
         let gradeHtml='';
-        if(CFG.showGrade && d.grade && d.status!=='pending'){
+        if(CFG.showGrade && d.grade && d.status!=='pending' && d.status!=='trancado'){
           const gv=parseFloat(d.grade);
           const gc=gv>=7?'gg':gv>=5?'gk':'gb';
           gradeHtml=`<div class="card-grade"><span class="grade-badge ${gc}">${d.grade}</span></div>`;

@@ -69,8 +69,9 @@ body.theme-hc{--bg:#000;--surface:#111;--surface2:#1a1a1a;--border:#444;--text:#
 /* STATUS COLOR MODE */
 body.color-status .card.done   .card-stripe{background:var(--green)!important;}
 body.color-status .card.enrolled .card-stripe{background:var(--accent)!important;}
-body.color-status .card.failed .card-stripe{background:var(--yellow)!important;}
-body.color-status .card:not(.done):not(.enrolled):not(.failed) .card-stripe{background:var(--muted)!important;}
+body.color-status .card.failed .card-stripe{background:var(--red)!important;}
+body.color-status .card.trancado .card-stripe{background:var(--muted)!important;}
+body.color-status .card:not(.done):not(.enrolled):not(.failed):not(.trancado) .card-stripe{background:var(--muted)!important;}
 /* MONO COLOR MODE */
 body.color-mono .card-stripe{background:var(--muted)!important;}
 body.color-mono .period-head{color:var(--text)!important;border-color:var(--border)!important;background:var(--surface2)!important;}
@@ -117,9 +118,10 @@ header{position:sticky;top:0;z-index:100;background:rgba(13,15,20,.92);backdrop-
 .header-left{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
 .logo-mark{font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
 .logo-sub{font-size:.66rem;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-top:1px;}
-.tab-switcher{display:flex;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:3px;gap:3px;}
+.tab-switcher{display:flex;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:3px;gap:3px;}
 .tab-btn{padding:6px 15px;border:none;background:transparent;color:var(--muted);font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:600;border-radius:7px;cursor:pointer;transition:all .25s;}
 .tab-btn.active{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;box-shadow:0 2px 12px rgba(79,142,247,.35);}
+.tab-group-label{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);opacity:.55;padding:0 4px 0 6px;}
 .header-right{display:flex;align-items:center;gap:9px;flex-wrap:wrap;}
 .search-wrap{position:relative;display:flex;align-items:center;}
 .search-wrap svg{position:absolute;left:10px;color:var(--muted);pointer-events:none;}
@@ -166,9 +168,13 @@ svg#svg-layer{position:absolute;top:0;left:0;width:100%;height:100%;pointer-even
 .card.done{opacity:.32;filter:saturate(.25) brightness(.65);border-style:dashed!important;}
 .card.done::after{content:'✓';position:absolute;top:5px;right:7px;font-size:.72rem;font-weight:800;color:var(--green);opacity:.85;}
 .card.done:hover{opacity:.55;filter:saturate(.45) brightness(.82);transform:translateY(-3px);}
-/* FAILED: amber tint, retry icon */
-.card.failed{opacity:.48;filter:saturate(.35) brightness(.72) hue-rotate(8deg);border-style:dashed!important;}
-.card.failed::after{content:'↺';position:absolute;top:4px;right:7px;font-size:.82rem;color:var(--yellow);}
+/* FAILED: bright red highlight, retry icon */
+.card.failed{border-style:solid!important;border-color:rgba(255,107,107,.55)!important;box-shadow:0 0 0 1px rgba(255,107,107,.12),0 0 18px rgba(255,107,107,.22);background:linear-gradient(160deg,rgba(255,107,107,.1) 0%,transparent 55%);}
+.card.failed::after{content:'↺';position:absolute;top:4px;right:7px;font-size:.82rem;color:var(--red);}
+.card.failed:hover{border-color:rgba(255,107,107,.85)!important;box-shadow:0 0 0 1px rgba(255,107,107,.28),0 0 26px rgba(255,107,107,.32);transform:translateY(-6px) scale(1.02);}
+/* TRANCADO: normal appearance (still needs to be taken), dashed border + return icon as subtle indicator */
+.card.trancado{border-style:dashed!important;border-color:var(--muted)66!important;}
+.card.trancado::after{content:'↩';position:absolute;top:4px;right:6px;font-size:.8rem;color:var(--muted);}
 /* ENROLLED: glowing border, play icon */
 .card.enrolled{border-style:solid!important;box-shadow:0 0 0 2px rgba(79,142,247,.32);}
 .card.enrolled::after{content:'▶';position:absolute;top:6px;right:7px;font-size:.62rem;color:var(--accent);}

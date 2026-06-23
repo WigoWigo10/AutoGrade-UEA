@@ -22,7 +22,7 @@ function drawArrows(){
 
     const fromStatus = statusCache[fromId] || 'pending';
     const toStatus   = statusCache[toId]   || 'pending';
-    const active = s => s === 'pending' || s === 'enrolled';
+    const active = s => s === 'pending' || s === 'enrolled' || s === 'trancado';
     if(!active(fromStatus) || !active(toStatus)) return;
 
     const e1=document.getElementById('card-'+fromId);

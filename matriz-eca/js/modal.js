@@ -21,8 +21,8 @@ function openModal(sub){
   const tc=document.getElementById('m-tc');
   if(d.turma){tc.style.display='block';document.getElementById('m-turma').textContent=d.turma;}
   else tc.style.display='none';
-  const slabels={done:'✓ Concluída',enrolled:'▶ Cursando',failed:'↺ Já reprovei',pending:'⬜ Pendente'};
-  const scolors={done:'var(--green)',enrolled:'var(--accent)',failed:'var(--yellow)',pending:'var(--muted)'};
+  const slabels={done:'✓ Concluída',enrolled:'▶ Cursando',failed:'↺ Já reprovei',pending:'⬜ Pendente',trancado:'↩ Trancada'};
+  const scolors={done:'var(--green)',enrolled:'var(--accent)',failed:'var(--red)',pending:'var(--muted)',trancado:'var(--muted)'};
   const sb=document.getElementById('m-sbadge');
   sb.textContent=slabels[d.status];
   sb.style.cssText=`background:${scolors[d.status]}22;color:${scolors[d.status]};border:1px solid ${scolors[d.status]}44;font-size:.68rem;padding:2px 8px;border-radius:5px;`;
@@ -34,8 +34,8 @@ function openModal(sub){
   if(d.attempts && d.attempts.length>1){
     const semVal=s=>{const m=(s||'').match(/(\d{4})\/(\d)/);return m?+m[1]*10+ +m[2]:0;};
     const sorted=[...d.attempts].sort((a,b)=>semVal(a.semester)-semVal(b.semester));
-    const sicon={done:'✓',enrolled:'▶',failed:'↺'};
-    const slabel={done:'Aprovado',enrolled:'Cursando',failed:'Reprovado'};
+    const sicon={done:'✓',enrolled:'▶',failed:'↺',trancado:'↩'};
+    const slabel={done:'Aprovado',enrolled:'Cursando',failed:'Reprovado',trancado:'Trancado'};
     attEl.innerHTML=sorted.map((a,i)=>{
       const isFinal=i===sorted.length-1;
       const gv=parseFloat(a.grade);
@@ -79,7 +79,7 @@ function setStatus(st){
   if(!activeSub)return;
   setSub(activeSub.id,{status:st});
   const card=document.getElementById('card-'+activeSub.id);
-  if(card){card.classList.remove('done','enrolled','failed');if(st!=='pending')card.classList.add(st);}
+  if(card){card.classList.remove('done','enrolled','failed','trancado');if(st!=='pending')card.classList.add(st);}
   openModal(activeSub);
   updateStats();
   const msgs={done:'✓ Marcada como concluída!',enrolled:'▶ Marcada como cursando!',failed:'↺ Marcada como reprovada!',pending:'⬜ Status removido'};
