@@ -22,7 +22,8 @@ Clique em qualquer disciplina para abrir o modal e marcar:
 | ⬜ Pendente | Ainda não cursou |
 | ▶ Cursando | Matriculado no semestre atual |
 | ✓ Concluída | Aprovado |
-| ↺ Reprovei | Já tentou, não passou |
+| ↺ Reprovei | Já tentou, não passou — destaque em vermelho |
+| ↩ Trancada | Matrícula trancada — ainda precisa cursar |
 
 O modal também salva professores, materiais/links e anotações pessoais por disciplina.
 
@@ -35,7 +36,7 @@ O modal também salva professores, materiais/links e anotações pessoais por di
 ### Importação do histórico escolar (PDF)
 - Arraste ou selecione o PDF do **Histórico Escolar Parcial** emitido pela UEA
 - Extração 100% local via [PDF.js](https://mozilla.github.io/pdf.js/) — nenhum arquivo é enviado a servidores
-- Detecta: código da disciplina, status (Aprovado/Reprovado/Matriculado/Cancelado/Trancado), nota final, semestre cursado e turma
+- Detecta: código da disciplina, status (Aprovado / Reprovado / Matriculado / Trancado), nota final, semestre cursado e turma; registros Cancelados são descartados silenciosamente
 - **Múltiplas tentativas**: se a mesma disciplina aparece em semestres diferentes (reprovação → aprovação), todas as tentativas são salvas e exibidas no modal em ordem cronológica
 - **Disciplinas optativas**: identificadas pelo catálogo oficial e distribuídas nos slots da grade em ordem cronológica; a nota e o semestre ficam visíveis no card
 - **Equivalências**: cobre códigos alternativos que a UEA usa em diferentes períodos para a mesma disciplina (ex: `ESTEEL012` → Sinais e Sistemas)
@@ -57,7 +58,7 @@ O SVG é gerado programaticamente a partir do DOM (não é screenshot): inclui c
 - **Agrupar por tipo**: separa obrigatórias, laboratórios e optativas dentro de cada período
 - **Temas**: Dark (padrão), Light, Alto Contraste
 - **Progresso**: barra e contadores no topo (concluídas / cursando / reprovadas / pendentes)
-- Persistência via `localStorage` — o estado é preservado entre sessões no mesmo navegador
+- Persistência via `localStorage` — status das disciplinas e grade selecionada são preservados entre sessões
 
 ---
 
@@ -77,13 +78,13 @@ autograde-uea/
 ├── css/
 │   └── styles.css      # Todos os estilos (temas, cards, setas, painel)
 └── js/
-    ├── data.js         # Dados das grades, catálogo OPT14, mapa EQUIV14, CM
+    ├── data.js         # Dados das grades, GRADES, OPT_ECA/OPT_CMP, CM_ECA/CM_CMP, EQUIV_ECA
     ├── storage.js      # Wrapper de localStorage com cache em memória
     ├── settings.js     # Objeto CFG, funções de tema/layout/setas
     ├── render.js       # Renderização da grade + patchOptSlots()
     ├── arrows.js       # Setas SVG + hlChain (highlight de cadeia)
     ├── modal.js        # Modal de detalhes, troca de status
-    ├── import.js       # Parsing do PDF, matching OPT14/EQUIV14/CM
+    ├── import.js       # Parsing do PDF, matching via GRADES[G].{cm, opt, equiv}
     ├── export.js       # Exportação PNG (html2canvas) e SVG vetorial
     └── main.js         # init(), busca, limpar, toast
 ```
@@ -116,7 +117,7 @@ Cada disciplina é um objeto:
 
 ### `patchOptSlots()` (`render.js`)
 
-Chamada no início de cada renderização. Lê do `localStorage` quais optativas estão salvas nos slots (`opt1_14`…`opt10_14`), resolve os pré-requisitos do `OPT14` para IDs internos e injeta em `DATA[G]` em runtime — assim as setas e o highlight de cadeia funcionam corretamente para optativas importadas.
+Chamada no início de cada renderização. Lê do `localStorage` quais optativas estão salvas nos slots, resolve os pré-requisitos do catálogo `OPT` do curso atual (via `GRADES[G].opt`) para IDs internos e injeta em `DATA[G]` em runtime — assim as setas e o highlight de cadeia funcionam corretamente para optativas importadas.
 
 ---
 
