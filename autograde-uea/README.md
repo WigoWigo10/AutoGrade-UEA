@@ -63,7 +63,7 @@ O SVG é gerado programaticamente a partir do DOM (não é screenshot): inclui c
 
 ## Como usar
 
-Nenhuma instalação necessária. Abra `matriz-eca/index.html` diretamente no navegador (Chrome/Edge/Firefox).
+Nenhuma instalação necessária. Abra `autograde-uea/index.html` diretamente no navegador (Chrome/Edge/Firefox).
 
 > Para importar o PDF do histórico, o arquivo precisa ser o **Histórico Escolar Parcial** em PDF gerado pelo portal da UEA. PDFs escaneados (imagem) não funcionam — é necessário o PDF digital com texto selecionável.
 
@@ -72,7 +72,7 @@ Nenhuma instalação necessária. Abra `matriz-eca/index.html` diretamente no na
 ## Estrutura de arquivos
 
 ```
-matriz-eca/
+autograde-uea/
 ├── index.html          # Ponto de entrada, modais, painel de configurações
 ├── css/
 │   └── styles.css      # Todos os estilos (temas, cards, setas, painel)
