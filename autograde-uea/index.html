@@ -18,11 +18,22 @@
       <div class="logo-sub">Matrizes Curriculares</div>
     </div>
     <div class="tab-switcher">
-      <span class="tab-group-label">ECA</span>
-      <button class="tab-btn active" onclick="switchGrade('ECA_2014',this)">Grade 2014</button>
-      <button class="tab-btn" onclick="switchGrade('ECA_2023',this)">Grade 2023</button>
-      <span class="tab-group-label">Computação</span>
-      <button class="tab-btn" onclick="switchGrade('CMP_2018',this)">Grade 2018</button>
+      <div class="course-pick" id="course-pick">
+        <button class="course-pick-btn" onclick="toggleCoursePick(this)">
+          <span id="course-pick-label">ECA</span>
+        </button>
+        <div class="course-pick-menu">
+          <button class="cpick-item active" data-course="ECA" onclick="pickCourse('ECA',this)">ECA</button>
+          <button class="cpick-item" data-course="CMP" onclick="pickCourse('CMP',this)">Computação</button>
+        </div>
+      </div>
+      <div class="grade-pills" data-for="ECA">
+        <button class="grade-pill active" onclick="switchGrade('ECA_2014',this)">Grade 2014</button>
+        <button class="grade-pill" onclick="switchGrade('ECA_2023',this)">Grade 2023</button>
+      </div>
+      <div class="grade-pills" data-for="CMP" hidden>
+        <button class="grade-pill active" onclick="switchGrade('CMP_2018',this)">Grade 2018</button>
+      </div>
     </div>
   </div>
   <div class="header-right">
