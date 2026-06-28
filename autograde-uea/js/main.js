@@ -4,6 +4,7 @@ let tt;
 
 // ── INIT ─────────────────────────────────────────────────────────────────────
 function init(){
+  initIcons();
   applyCfgOnLoad();
   if(CFG.grade){
     G=CFG.grade;
@@ -66,7 +67,7 @@ function clearAll(){
 // ── TOAST ────────────────────────────────────────────────────────────────────
 function showToast(msg,type=''){
   const t=document.getElementById('toast');
-  t.textContent=msg;t.className='toast show'+(type?' '+type:'');
+  t.innerHTML=msg;t.className='toast show'+(type?' '+type:'');
   clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),2800);
 }
 

@@ -21,11 +21,17 @@ function openModal(sub){
   const tc=document.getElementById('m-tc');
   if(d.turma){tc.style.display='block';document.getElementById('m-turma').textContent=d.turma;}
   else tc.style.display='none';
-  const slabels={done:'✓ Concluída',enrolled:'▶ Cursando',failed:'↺ Já reprovei',pending:'⬜ Pendente',trancado:'↩ Trancada'};
+  const slabels={
+    done:    `${CARD_BADGE_SVG.done} Concluída`,
+    enrolled:`${CARD_BADGE_SVG.enrolled} Cursando`,
+    failed:  `${CARD_BADGE_SVG.failed} Já reprovei`,
+    pending: `${IC.pending(12)} Pendente`,
+    trancado:`${CARD_BADGE_SVG.trancado} Trancada`,
+  };
   const scolors={done:'var(--green)',enrolled:'var(--accent)',failed:'var(--red)',pending:'var(--muted)',trancado:'var(--muted)'};
   const sb=document.getElementById('m-sbadge');
-  sb.textContent=slabels[d.status];
-  sb.style.cssText=`background:${scolors[d.status]}22;color:${scolors[d.status]};border:1px solid ${scolors[d.status]}44;font-size:.68rem;padding:2px 8px;border-radius:5px;`;
+  sb.innerHTML=slabels[d.status];
+  sb.style.cssText=`background:${scolors[d.status]}22;color:${scolors[d.status]};border:1px solid ${scolors[d.status]}44;font-size:.68rem;padding:2px 8px;border-radius:5px;display:inline-flex;align-items:center;gap:4px;`;
   ['pending','enrolled','done','failed'].forEach(s=>{
     document.getElementById('st-'+s).className='st-btn'+(d.status===s?' s-'+s:'');
   });
@@ -34,7 +40,7 @@ function openModal(sub){
   if(d.attempts && d.attempts.length>1){
     const semVal=s=>{const m=(s||'').match(/(\d{4})\/(\d)/);return m?+m[1]*10+ +m[2]:0;};
     const sorted=[...d.attempts].sort((a,b)=>semVal(a.semester)-semVal(b.semester));
-    const sicon={done:'✓',enrolled:'▶',failed:'↺',trancado:'↩'};
+    const sicon={done:CARD_BADGE_SVG.done,enrolled:CARD_BADGE_SVG.enrolled,failed:CARD_BADGE_SVG.failed,trancado:CARD_BADGE_SVG.trancado};
     const slabel={done:'Aprovado',enrolled:'Cursando',failed:'Reprovado',trancado:'Trancado'};
     attEl.innerHTML=sorted.map((a,i)=>{
       const isFinal=i===sorted.length-1;
@@ -79,10 +85,20 @@ function setStatus(st){
   if(!activeSub)return;
   setSub(activeSub.id,{status:st});
   const card=document.getElementById('card-'+activeSub.id);
-  if(card){card.classList.remove('done','enrolled','failed','trancado');if(st!=='pending')card.classList.add(st);}
+  if(card){
+    card.classList.remove('done','enrolled','failed','trancado');
+    if(st!=='pending') card.classList.add(st);
+    const badge=card.querySelector('.card-badge');
+    if(badge) badge.innerHTML=CARD_BADGE_SVG[st]||'';
+  }
   openModal(activeSub);
   updateStats();
-  const msgs={done:'✓ Marcada como concluída!',enrolled:'▶ Marcada como cursando!',failed:'↺ Marcada como reprovada!',pending:'⬜ Status removido'};
+  const msgs={
+    done:    `${CARD_BADGE_SVG.done} Marcada como concluída!`,
+    enrolled:`${CARD_BADGE_SVG.enrolled} Marcada como cursando!`,
+    failed:  `${CARD_BADGE_SVG.failed} Marcada como reprovada!`,
+    pending: 'Status removido',
+  };
   showToast(msgs[st],st==='done'?'ok':'');
 }
 
@@ -93,5 +109,5 @@ function saveExtra(){
     materials:document.getElementById('m-materials').value,
     notes:document.getElementById('m-notes').value,
   });
-  showToast('💾 Informações salvas!','ok');
+  showToast(`${IC.save()} Informações salvas!`,'ok');
 }

@@ -203,10 +203,12 @@ function render(){
         }
         const optBadge=isOptSlot?'<div class="opt-badge">OPT</div>':'';
 
+        const badgeSvg=CARD_BADGE_SVG[d.status]||'';
         card.innerHTML=`<div class="card-stripe" style="background:${c.main}"></div>
           ${optBadge}${codeHtml}
           <div class="card-name">${displayName}</div>
-          ${hoursHtml}${gradeHtml}`;
+          ${hoursHtml}${gradeHtml}
+          ${badgeSvg?'<span class="card-badge">'+badgeSvg+'</span>':''}`;
 
         if(CFG.arrowVis==='hover'){
           card.addEventListener('mouseenter',()=>{document.querySelectorAll('.arrow-line').forEach(l=>l.style.opacity='0');hlChain(sub.id,true);});
