@@ -783,10 +783,151 @@ const CM_EEL={
   'ESTEEL105':'eel_tcc2',        'ESTEEL104':'eel_top_esp1',
 };
 
+// ── EEN_2015 (Engenharia Eletrônica 2015) ─────────────────────────────────────
+DATA['EEN_2015']=[
+  // 1º Período
+  {id:'een_fmat1',       name:'Fund. Matemáticos Eng. Eletr. I',        code:'EEN01',  period:1,  hours:'60h',  pre:[],              unlocks:['een_fmat2','een_teoria_em','een_metnum']},
+  {id:'een_fund_eletmec',name:'Fund. Sistemas Eletromecânicos',          code:'EEN02',  period:1,  hours:'60h',  pre:[],              unlocks:['een_mecsol']},
+  {id:'een_avet',        name:'Análise Vetorial na Eng. Eletrônica',     code:'EEN03',  period:1,  hours:'60h',  pre:[],              unlocks:[]},
+  {id:'een_lmat1',       name:'Lab. Matemático Eng. Eletr. I',           code:'EEN04',  period:1,  hours:'30h',  pre:[],              unlocks:['een_lmat2']},
+  {id:'een_prog1',       name:'Técnicas de Programação em Eng. Eletr. I',code:'EEN05',  period:1,  hours:'60h',  pre:[],              unlocks:['een_prog2']},
+  {id:'een_soc1',        name:'Engenharia Eletrônica e Sociedade I',     code:'EEN06',  period:1,  hours:'30h',  pre:[],              unlocks:['een_soc2']},
+  {id:'een_exgraf',      name:'Intro. Expressão Gráfica',                code:'EEN07',  period:1,  hours:'30h',  pre:[],              unlocks:[]},
+  {id:'een_ciamb',       name:'Ciências Ambientais p/ Eng. Eletrônica',  code:'EEN08',  period:1,  hours:'30h',  pre:[],              unlocks:[]},
+  // 2º Período
+  {id:'een_comexp',      name:'Comunicação e Expressão p/ Engenheiros',  code:'EEN26',  period:2,  hours:'60h',  pre:[],              unlocks:[]},
+  {id:'een_eletroquim',  name:'Introdução à Eletroquímica',              code:'EEN27',  period:2,  hours:'60h',  pre:[],              unlocks:[]},
+  {id:'een_fmat2',       name:'Fund. Matemáticos Eng. Eletr. II',        code:'EEN20',  period:2,  hours:'60h',  pre:['een_fmat1'],   unlocks:['een_sinais','een_proc_esto','een_ams1']},
+  {id:'een_teoria_em',   name:'Introdução à Teoria Eletromagnética',     code:'EEN21',  period:2,  hours:'60h',  pre:['een_fmat1'],   unlocks:['een_eletromag']},
+  {id:'een_fcirc',       name:'Fund. p/ Análise de Circuítos Elétricos', code:'EEN22',  period:2,  hours:'60h',  pre:[],              unlocks:['een_circ1']},
+  {id:'een_lmat2',       name:'Lab. Matemático Eng. Eletr. II',          code:'EEN23',  period:2,  hours:'30h',  pre:['een_lmat1'],   unlocks:[]},
+  {id:'een_prog2',       name:'Técnicas de Programação em Eng. Eletr. II',code:'EEN24', period:2,  hours:'60h',  pre:['een_prog1'],   unlocks:['een_so_emb']},
+  {id:'een_econ',        name:'Economia p/ Eng. Eletrônica',             code:'EEN25',  period:2,  hours:'45h',  pre:[],              unlocks:[]},
+  // 3º Período
+  {id:'een_sinais',      name:'Análise de Sinais',                       code:'EEN30',  period:3,  hours:'60h',  pre:['een_fmat2'],   unlocks:[]},
+  {id:'een_ftransp1',    name:'Fenômenos de Transporte I',               code:'EEN31',  period:3,  hours:'60h',  pre:[],              unlocks:['een_ftransp2']},
+  {id:'een_din_ond',     name:'Dinâmica de Fenômenos Ondulatórios',      code:'EEN32',  period:3,  hours:'60h',  pre:[],              unlocks:[]},
+  {id:'een_lelet1',      name:'Lab. de Eletrônica I',                    code:'EEN33',  period:3,  hours:'30h',  pre:[],              unlocks:[]},
+  {id:'een_proc_esto',   name:'Introdução aos Processos Estocásticos',   code:'EEN34',  period:3,  hours:'60h',  pre:['een_fmat2'],   unlocks:['een_teoinfo']},
+  {id:'een_circ1',       name:'Análise de Circuítos Elétricos I',        code:'EEN35',  period:3,  hours:'60h',  pre:['een_fcirc'],   unlocks:['een_fund_elet','een_circ2']},
+  {id:'een_adm',         name:'Adm. de Empresas e Org. da Produção',     code:'EEN36',  period:3,  hours:'45h',  pre:[],              unlocks:[]},
+  // 4º Período
+  {id:'een_ams1',        name:'Análise, Modelagem e Sim. de Sist. Din. I',code:'EEN40', period:4,  hours:'60h',  pre:['een_fmat2'],   unlocks:['een_ams2']},
+  {id:'een_ftransp2',    name:'Fenômenos de Transporte II',              code:'EEN41',  period:4,  hours:'60h',  pre:['een_ftransp1'],unlocks:[]},
+  {id:'een_circlog',     name:'Circuítos Lógicos',                       code:'EEN42',  period:4,  hours:'60h',  pre:[],              unlocks:['een_micro','een_microelet']},
+  {id:'een_lelet2',      name:'Lab. de Eletrônica II',                   code:'EEN43',  period:4,  hours:'30h',  pre:[],              unlocks:[]},
+  {id:'een_fund_elet',   name:'Fundamentos da Eletrônica',               code:'EEN44',  period:4,  hours:'60h',  pre:['een_circ1'],   unlocks:['een_lelet3','een_eletap1']},
+  {id:'een_circ2',       name:'Análise de Circuítos Elétricos II',       code:'EEN45',  period:4,  hours:'60h',  pre:['een_circ1'],   unlocks:['een_controle']},
+  {id:'een_cad',         name:'CAD para Eletrônica',                     code:'EEN46',  period:4,  hours:'30h',  pre:[],              unlocks:[]},
+  {id:'een_constr',      name:'Construção Eletrônica',                   code:'EEN47',  period:4,  hours:'30h',  pre:[],              unlocks:[]},
+  // 5º Período
+  {id:'een_ams2',        name:'Análise, Modelagem e Sim. de Sist. Din.', code:'EEN50',  period:5,  hours:'60h',  pre:['een_ams1'],    unlocks:[]},
+  {id:'een_eletromag',   name:'Eletromagnetismo Aplic. à Eng. Eletrônica',code:'EEN51', period:5,  hours:'60h',  pre:['een_teoria_em'],unlocks:['een_eletric1']},
+  {id:'een_micro',       name:'Microprocessadores e Microcontroladores', code:'EEN52',  period:5,  hours:'60h',  pre:['een_circlog'],  unlocks:['een_projmicro']},
+  {id:'een_lelet3',      name:'Lab. de Eletrônica III',                  code:'EEN53',  period:5,  hours:'30h',  pre:['een_fund_elet'],unlocks:[]},
+  {id:'een_soc2',        name:'Eng. Eletrônica e Sociedade II',          code:'EEN54',  period:5,  hours:'30h',  pre:['een_soc1'],    unlocks:[]},
+  {id:'een_eletap1',     name:'Eletrônica Aplicada I',                   code:'EEN55',  period:5,  hours:'60h',  pre:['een_fund_elet'],unlocks:['een_sensor','een_eletpot','een_eletap2']},
+  {id:'een_redes',       name:'Introdução às Redes de Comunicação',      code:'EEN56',  period:5,  hours:'60h',  pre:[],              unlocks:[]},
+  // 6º Período
+  {id:'een_metnum',      name:'Métodos Numéricos em Eng. Eletrônica',    code:'EEN60',  period:6,  hours:'60h',  pre:['een_fmat1'],   unlocks:[]},
+  {id:'een_eletric1',    name:'Eletricidade Aplicada I',                 code:'EEN61',  period:6,  hours:'60h',  pre:['een_eletromag'],unlocks:['een_eletric2']},
+  {id:'een_sensor',      name:'Sensores e Instrumentação Eletrônica',    code:'EEN62',  period:6,  hours:'60h',  pre:['een_eletap1'], unlocks:[]},
+  {id:'een_lelet4',      name:'Lab. de Eletrônica IV',                   code:'EEN63',  period:6,  hours:'30h',  pre:[],              unlocks:[]},
+  {id:'een_eletpot',     name:'Eletrônica de Potência',                  code:'EEN64',  period:6,  hours:'60h',  pre:['een_eletap1'], unlocks:[]},
+  {id:'een_eletap2',     name:'Eletrônica Aplicada II',                  code:'EEN65',  period:6,  hours:'60h',  pre:['een_eletap1'], unlocks:[]},
+  {id:'een_gerproj',     name:'Gerência de Projetos',                    code:'EEN66',  period:6,  hours:'60h',  pre:[],              unlocks:[]},
+  // 7º Período
+  {id:'een_controle',    name:'Controle e Servomecanismo',               code:'EEN70',  period:7,  hours:'60h',  pre:['een_circ2'],   unlocks:['een_robotica']},
+  {id:'een_eletric2',    name:'Eletricidade Aplicada II',                code:'EEN71',  period:7,  hours:'60h',  pre:['een_eletric1'],unlocks:[]},
+  {id:'een_projmicro',   name:'Projetos de Sistemas Microprocessados',   code:'EEN72',  period:7,  hours:'60h',  pre:['een_micro'],   unlocks:[]},
+  {id:'een_cmdelet',     name:'Comandos Elétricos',                      code:'EEN73',  period:7,  hours:'60h',  pre:[],              unlocks:[]},
+  {id:'een_mecsol',      name:'Mecânica dos Sólidos p/ Eng. Eletrônica', code:'EEN74',  period:7,  hours:'60h',  pre:['een_fund_eletmec'],unlocks:[]},
+  {id:'een_tecmod',      name:'Técnicas de Modulação',                   code:'EEN75',  period:7,  hours:'60h',  pre:[],              unlocks:[]},
+  // 8º Período
+  {id:'een_teoinfo',     name:'Teoria da Informação e Codificação',      code:'EEN80',  period:8,  hours:'60h',  pre:['een_proc_esto'],unlocks:[]},
+  {id:'een_so_emb',      name:'Sistemas Operacionais Embarcados',        code:'EEN81',  period:8,  hours:'60h',  pre:['een_prog2'],   unlocks:['een_testsw','een_progvm','een_tempo_real']},
+  {id:'een_microelet',   name:'Microeletrônica',                         code:'EEN82',  period:8,  hours:'60h',  pre:['een_circlog'], unlocks:[]},
+  {id:'een_autoind',     name:'Automação Industrial',                    code:'EEN83',  period:8,  hours:'60h',  pre:[],              unlocks:[]},
+  {id:'een_matelet',     name:'Ciência e Tecnologia dos Materiais Eletr.',code:'EEN84', period:8,  hours:'60h',  pre:[],              unlocks:[]},
+  {id:'een_estagio',     name:'Estágio Supervisionado',                  code:'EEN108', period:8,  hours:'390h', pre:['een_fmat1','een_fund_eletmec','een_avet','een_lmat1','een_prog1','een_soc1','een_exgraf','een_ciamb','een_fmat2','een_teoria_em','een_fcirc','een_lmat2','een_econ','een_comexp','een_eletroquim','een_sinais','een_ftransp1','een_din_ond','een_lelet1','een_proc_esto','een_circ1','een_adm','een_ams1','een_ftransp2','een_circlog','een_lelet2','een_fund_elet','een_circ2','een_cad','een_constr','een_ams2','een_eletromag','een_micro','een_lelet3','een_soc2','een_eletap1','een_redes','een_metnum','een_eletric1','een_sensor','een_lelet4','een_eletpot','een_eletap2','een_gerproj'], unlocks:[]},
+  // 9º Período
+  {id:'een_robotica',    name:'Robótica Aplicada',                       code:'EEN90',  period:9,  hours:'60h',  pre:['een_controle'], unlocks:[]},
+  {id:'een_testsw',      name:'Testabilidade e Seg. de Software Emb.',   code:'EEN91',  period:9,  hours:'60h',  pre:['een_so_emb'],  unlocks:[]},
+  {id:'een_audio',       name:'Sistemas Eletrônicos de Áudio',           code:'EEN92',  period:9,  hours:'60h',  pre:[],              unlocks:[]},
+  {id:'een_progvm',      name:'Programação Orientada a Máquinas Virtuais',code:'EEN93', period:9,  hours:'60h',  pre:['een_so_emb'],  unlocks:[]},
+  {id:'een_seg_el',      name:'Segurança em Instalações Elétricas',      code:'EEN94',  period:9,  hours:'60h',  pre:[],              unlocks:[]},
+  {id:'een_tcc1',        name:'TCC I',                                   code:'EEN95',  period:9,  hours:'45h',  pre:['een_fmat1','een_fund_eletmec','een_avet','een_lmat1','een_prog1','een_soc1','een_exgraf','een_ciamb','een_fmat2','een_teoria_em','een_fcirc','een_lmat2','een_econ','een_comexp','een_eletroquim','een_sinais','een_ftransp1','een_din_ond','een_lelet1','een_proc_esto','een_circ1','een_adm','een_ams1','een_ftransp2','een_circlog','een_lelet2','een_fund_elet','een_circ2','een_cad','een_constr','een_ams2','een_eletromag','een_micro','een_lelet3','een_soc2','een_eletap1','een_redes','een_metnum','een_eletric1','een_sensor','een_lelet4','een_eletpot','een_eletap2','een_gerproj','een_controle','een_eletric2','een_projmicro','een_cmdelet','een_mecsol','een_tecmod','een_teoinfo','een_so_emb','een_microelet','een_autoind','een_matelet'], unlocks:['een_tcc2']},
+  {id:'een_opt1',        name:'Optativa I',                              code:'—',      period:9,  hours:'—',    pre:[],              unlocks:[], optional:true},
+  {id:'een_opt2',        name:'Optativa II',                             code:'—',      period:9,  hours:'—',    pre:[],              unlocks:[], optional:true},
+  // 10º Período
+  {id:'een_tempo_real',  name:'Sistemas Eletrônicos de Tempo-Real',      code:'EEN100', period:10, hours:'60h',  pre:['een_so_emb'],  unlocks:[]},
+  {id:'een_auto_manuf',  name:'Automação de Manufatura',                 code:'EEN101', period:10, hours:'60h',  pre:[],              unlocks:[]},
+  {id:'een_imagens',     name:'Sistemas Eletrônicos de Imagens',         code:'EEN102', period:10, hours:'60h',  pre:[],              unlocks:[]},
+  {id:'een_emi',         name:'Interferência Eletromagnética',           code:'EEN103', period:10, hours:'60h',  pre:[],              unlocks:[]},
+  {id:'een_pds',         name:'Processamento Digital de Sinais',         code:'EEN104', period:10, hours:'60h',  pre:[],              unlocks:[]},
+  {id:'een_confiab',     name:'Confiabilidade em Sistemas Eletrônicos',  code:'EEN105', period:10, hours:'60h',  pre:[],              unlocks:[]},
+  {id:'een_gps',         name:'Sistemas de Geo-Localização por Satélites',code:'EEN106',period:10, hours:'60h',  pre:[],              unlocks:[]},
+  {id:'een_tcc2',        name:'TCC II',                                  code:'EEN107', period:10, hours:'45h',  pre:['een_tcc1'],    unlocks:[]},
+];
+
+// ── OPTATIVAS CATALOG (Grade EEN 2015 — EST30MEEN EEN_2015) ─────────────────
+const OPT_EEN={
+  'EEN0001':{name:'Redes sem Fio',                                      hours:'—', pre:[]},
+  'EEN0002':{name:'Propagação e Antenas para Sistemas Embarcados',      hours:'—', pre:[]},
+  'EEN0003':{name:'Regulação em Telecomunicações',                      hours:'—', pre:[]},
+  'EEN0004':{name:'Tópicos Avançados em Sistemas Embarcados',           hours:'—', pre:[]},
+  'EEN0005':{name:'Smart Grids',                                        hours:'—', pre:[]},
+  'EEN0006':{name:'Sistemas Supervisórios',                             hours:'—', pre:[]},
+  'EEN0007':{name:'Redes de Automação Industrial',                      hours:'—', pre:[]},
+  'EEN0008':{name:'Língua Brasileira de Sinais (Libras)',               hours:'—', pre:[]},
+};
+
+// ── CODE MAP (histórico code → subject id in EEN_2015) ──────────────────────
+const CM_EEN={
+  // 1º Período
+  'EEN01':'een_fmat1',       'EEN02':'een_fund_eletmec', 'EEN03':'een_avet',
+  'EEN04':'een_lmat1',       'EEN05':'een_prog1',        'EEN06':'een_soc1',
+  'EEN07':'een_exgraf',      'EEN08':'een_ciamb',
+  // 2º Período
+  'EEN26':'een_comexp',      'EEN27':'een_eletroquim',   'EEN20':'een_fmat2',
+  'EEN21':'een_teoria_em',   'EEN22':'een_fcirc',        'EEN23':'een_lmat2',
+  'EEN24':'een_prog2',       'EEN25':'een_econ',
+  // 3º Período
+  'EEN30':'een_sinais',      'EEN31':'een_ftransp1',     'EEN32':'een_din_ond',
+  'EEN33':'een_lelet1',      'EEN34':'een_proc_esto',    'EEN35':'een_circ1',
+  'EEN36':'een_adm',
+  // 4º Período
+  'EEN40':'een_ams1',        'EEN41':'een_ftransp2',     'EEN42':'een_circlog',
+  'EEN43':'een_lelet2',      'EEN44':'een_fund_elet',    'EEN45':'een_circ2',
+  'EEN46':'een_cad',         'EEN47':'een_constr',
+  // 5º Período
+  'EEN50':'een_ams2',        'EEN51':'een_eletromag',    'EEN52':'een_micro',
+  'EEN53':'een_lelet3',      'EEN54':'een_soc2',         'EEN55':'een_eletap1',
+  'EEN56':'een_redes',
+  // 6º Período
+  'EEN60':'een_metnum',      'EEN61':'een_eletric1',     'EEN62':'een_sensor',
+  'EEN63':'een_lelet4',      'EEN64':'een_eletpot',      'EEN65':'een_eletap2',
+  'EEN66':'een_gerproj',
+  // 7º Período
+  'EEN70':'een_controle',    'EEN71':'een_eletric2',     'EEN72':'een_projmicro',
+  'EEN73':'een_cmdelet',     'EEN74':'een_mecsol',       'EEN75':'een_tecmod',
+  // 8º Período
+  'EEN80':'een_teoinfo',     'EEN81':'een_so_emb',       'EEN82':'een_microelet',
+  'EEN83':'een_autoind',     'EEN84':'een_matelet',      'EEN108':'een_estagio',
+  // 9º Período
+  'EEN90':'een_robotica',    'EEN91':'een_testsw',       'EEN92':'een_audio',
+  'EEN93':'een_progvm',      'EEN94':'een_seg_el',       'EEN95':'een_tcc1',
+  // 10º Período
+  'EEN100':'een_tempo_real', 'EEN101':'een_auto_manuf',  'EEN102':'een_imagens',
+  'EEN103':'een_emi',        'EEN104':'een_pds',         'EEN105':'een_confiab',
+  'EEN106':'een_gps',        'EEN107':'een_tcc2',
+};
+
 // ── GRADES METADATA ───────────────────────────────────────────────────────────
 const GRADES={
   'ECA_2014':{cm:CM_ECA, opt:OPT_ECA, equiv:EQUIV_ECA},
   'ECA_2023':{cm:CM_ECA_2023},
   'CMP_2018':{cm:CM_CMP, opt:OPT_CMP},
   'EEL_2014':{cm:CM_EEL, opt:OPT_EEL},
+  'EEN_2015':{cm:CM_EEN, opt:OPT_EEN},
 };
