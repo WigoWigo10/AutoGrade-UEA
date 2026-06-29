@@ -152,7 +152,7 @@ function parseHistorico(text){
 
     // Check optativa catalog (grades that define opt)
     if(optCatalog[code]){
-      if(!optFound.find(o=>o.code===code)){
+      if(status !== 'trancado' && !optFound.find(o=>o.code===code)){
         const chM = codeOwnerLine.match(/\b(30|45|60|75|90|120)\b/);
         const hours = chM ? chM[1]+'h' : optCatalog[code].hours;
         optFound.push({code, name:optCatalog[code].name, hours, status, grade, semester});
