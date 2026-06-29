@@ -23,7 +23,7 @@ async function exportPNG(scale){
     document.querySelectorAll('.card').forEach(c => c.classList.remove('lit'));
   }
 
-  const bg = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() || '#0d0f14';
+  const bg = getComputedStyle(document.body).getPropertyValue('--bg').trim() || '#0d0f14';
 
   try{
     const canvas = await html2canvas(track, {
@@ -65,7 +65,7 @@ function exportSVG(){
   const H      = track.scrollHeight;
 
   // Resolve CSS variables from active theme
-  const cs = getComputedStyle(document.documentElement);
+  const cs = getComputedStyle(document.body);
   const C = {
     bg:      cs.getPropertyValue('--bg').trim()      || '#0d0f14',
     surface: cs.getPropertyValue('--surface').trim() || '#13161e',
@@ -119,13 +119,26 @@ function exportSVG(){
     viewBox: `0 0 ${W} ${H}`,
   });
 
-  // Embed Google Fonts for browser SVG viewers
+  // Theme-aware arrow stroke
+  const isLight = document.body.classList.contains('theme-light');
+  const isHC    = document.body.classList.contains('theme-hc');
+  const arrowStroke = isHC    ? 'rgba(255,255,255,0.38)'
+                    : isLight ? 'rgba(30,50,100,0.18)'
+                              : 'rgba(120,130,160,0.25)';
+
+  // Embed Google Fonts for browser SVG viewers + arrowhead marker
   const defs = se('defs');
   const style = document.createElementNS(ns, 'style');
   style.textContent =
     "@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Syne:wght@700;800');\n" +
     "text { font-family: 'Space Grotesk', system-ui, sans-serif; }";
   defs.appendChild(style);
+  const ahMarker = se('marker', {
+    id: 'ah', markerWidth: 8, markerHeight: 6,
+    refX: 8, refY: 3, orient: 'auto', markerUnits: 'userSpaceOnUse',
+  });
+  ahMarker.appendChild(se('polygon', { points: '0 0, 8 3, 0 6', fill: arrowStroke }));
+  defs.appendChild(ahMarker);
   SVG.appendChild(defs);
 
   // Background
@@ -269,10 +282,13 @@ function exportSVG(){
   const arrowsG  = se('g', { 'data-layer': 'arrows' });
   svgLayer.querySelectorAll('path').forEach(path => {
     arrowsG.appendChild(se('path', {
-      d:             path.getAttribute('d'),
-      stroke:        'rgba(120,130,160,0.2)',
-      fill:          'none',
-      'stroke-width': path.getAttribute('stroke-width') || 1.5,
+      d:                path.getAttribute('d'),
+      stroke:           arrowStroke,
+      fill:             'none',
+      'stroke-width':   path.getAttribute('stroke-width') || 1.5,
+      'stroke-linecap': 'round',
+      'stroke-linejoin':'round',
+      'marker-end':     'url(#ah)',
     }));
   });
   SVG.appendChild(arrowsG);
