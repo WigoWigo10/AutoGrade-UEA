@@ -64,10 +64,29 @@ function buildLegend(){
 function switchGrade(g,btn){
   G=g;
   CFG.grade=g; saveCfg();
-  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.grade-pill').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   document.getElementById('search').value='';
   render();
+}
+
+function toggleCoursePick(btn){
+  document.getElementById('course-pick').classList.toggle('open');
+}
+
+function pickCourse(course,btn){
+  document.querySelectorAll('.cpick-item').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('course-pick-label').textContent=btn.textContent;
+  document.getElementById('course-pick').classList.remove('open');
+  document.querySelectorAll('.grade-pills').forEach(gp=>{gp.hidden=gp.dataset.for!==course;});
+  // switch to the last-active grade in this course, or default to first pill
+  const pills=document.querySelector(`.grade-pills[data-for="${course}"]`);
+  const already=pills.querySelector('.grade-pill.active')||pills.querySelector('.grade-pill');
+  if(already){
+    const m=(already.getAttribute('onclick')||'').match(/'([^']+)'/);
+    if(m) switchGrade(m[1],already);
+  }
 }
 
 // ── RENDER ───────────────────────────────────────────────────────────────────
@@ -184,10 +203,12 @@ function render(){
         }
         const optBadge=isOptSlot?'<div class="opt-badge">OPT</div>':'';
 
+        const badgeSvg=CARD_BADGE_SVG[d.status]||'';
         card.innerHTML=`<div class="card-stripe" style="background:${c.main}"></div>
           ${optBadge}${codeHtml}
           <div class="card-name">${displayName}</div>
-          ${hoursHtml}${gradeHtml}`;
+          ${hoursHtml}${gradeHtml}
+          ${badgeSvg?'<span class="card-badge">'+badgeSvg+'</span>':''}`;
 
         if(CFG.arrowVis==='hover'){
           card.addEventListener('mouseenter',()=>{document.querySelectorAll('.arrow-line').forEach(l=>l.style.opacity='0');hlChain(sub.id,true);});

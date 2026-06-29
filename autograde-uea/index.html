@@ -18,27 +18,38 @@
       <div class="logo-sub">Matrizes Curriculares</div>
     </div>
     <div class="tab-switcher">
-      <span class="tab-group-label">ECA</span>
-      <button class="tab-btn active" onclick="switchGrade('ECA_2014',this)">Grade 2014</button>
-      <button class="tab-btn" onclick="switchGrade('ECA_2023',this)">Grade 2023</button>
-      <span class="tab-group-label">Computação</span>
-      <button class="tab-btn" onclick="switchGrade('CMP_2018',this)">Grade 2018</button>
+      <div class="course-pick" id="course-pick">
+        <button class="course-pick-btn" onclick="toggleCoursePick(this)">
+          <span id="course-pick-label">ECA</span>
+        </button>
+        <div class="course-pick-menu">
+          <button class="cpick-item active" data-course="ECA" onclick="pickCourse('ECA',this)">ECA</button>
+          <button class="cpick-item" data-course="CMP" onclick="pickCourse('CMP',this)">Computação</button>
+        </div>
+      </div>
+      <div class="grade-pills" data-for="ECA">
+        <button class="grade-pill active" onclick="switchGrade('ECA_2014',this)">Grade 2014</button>
+        <button class="grade-pill" onclick="switchGrade('ECA_2023',this)">Grade 2023</button>
+      </div>
+      <div class="grade-pills" data-for="CMP" hidden>
+        <button class="grade-pill active" onclick="switchGrade('CMP_2018',this)">Grade 2018</button>
+      </div>
     </div>
   </div>
   <div class="header-right">
     <div class="search-wrap">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <span data-icon="search"></span>
       <input id="search" type="text" placeholder="Buscar matéria..." oninput="doSearch(this.value)">
     </div>
     <button class="hbtn" onclick="openImport()">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      <span data-icon="upload"></span>
       Importar Histórico
     </button>
     <div class="export-wrap" id="export-wrap">
       <button class="hbtn" onclick="toggleExportMenu()">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        <span data-icon="download"></span>
         Exportar PNG
-        <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        <span data-icon="chevronDown"></span>
       </button>
       <div class="export-menu" id="export-menu">
         <div class="export-menu-label">PNG Raster</div>
@@ -50,11 +61,11 @@
       </div>
     </div>
     <button class="hbtn danger" onclick="clearAll()">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
+      <span data-icon="trash"></span>
       Limpar
     </button>
     <button class="hbtn" onclick="openCfg()">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      <span data-icon="settings"></span>
       Configurar
     </button>
   </div>
@@ -86,15 +97,15 @@
         <span id="m-sbadge" style="font-size:.68rem;padding:2px 8px;border-radius:5px;"></span>
       </div>
       <div class="modal-title" id="m-title"></div>
-      <button class="modal-close" onclick="closeModal()">✕</button>
+      <button class="modal-close" onclick="closeModal()"><span data-icon="close"></span></button>
     </div>
     <div class="modal-divider"></div>
     <div class="modal-body">
       <div class="status-toggle">
-        <button class="st-btn" id="st-pending"  onclick="setStatus('pending')">⬜ Pendente</button>
-        <button class="st-btn" id="st-enrolled" onclick="setStatus('enrolled')">▶ Cursando</button>
-        <button class="st-btn" id="st-done"     onclick="setStatus('done')">✓ Concluída</button>
-        <button class="st-btn" id="st-failed"   onclick="setStatus('failed')">↺ Reprovei</button>
+        <button class="st-btn" id="st-pending"  onclick="setStatus('pending')"><span data-icon="pending"></span>Pendente</button>
+        <button class="st-btn" id="st-enrolled" onclick="setStatus('enrolled')"><span data-icon="play"></span>Cursando</button>
+        <button class="st-btn" id="st-done"     onclick="setStatus('done')"><span data-icon="check"></span>Concluída</button>
+        <button class="st-btn" id="st-failed"   onclick="setStatus('failed')"><span data-icon="retry"></span>Reprovei</button>
       </div>
       <div class="info-grid">
         <div class="info-card"><div class="info-label">Código</div><div class="info-value" id="m-code"></div></div>
@@ -112,17 +123,17 @@
       <div class="section-title">Libera as matérias</div>
       <div class="chip-wrap" id="m-post"></div>
       <div class="extra-section">
-        <div class="section-title">👩‍🏫 Professores</div>
+        <div class="section-title"><span data-icon="user"></span>Professores</div>
         <textarea class="editable-field" id="m-teachers" placeholder="Ex: Prof. João Silva — sala B203, terças 14h..."></textarea>
         <button class="save-btn" onclick="saveExtra()">Salvar</button>
       </div>
       <div class="extra-section">
-        <div class="section-title">📄 Materiais / Links</div>
+        <div class="section-title"><span data-icon="link"></span>Materiais / Links</div>
         <textarea class="editable-field" id="m-materials" placeholder="https://drive.google.com/... — Apostila&#10;https://youtube.com/... — Videoaula Bode"></textarea>
         <button class="save-btn" onclick="saveExtra()">Salvar</button>
       </div>
       <div class="extra-section">
-        <div class="section-title">📝 Anotações</div>
+        <div class="section-title"><span data-icon="pencil"></span>Anotações</div>
         <textarea class="editable-field" id="m-notes" placeholder="Suas observações pessoais sobre a matéria..."></textarea>
         <button class="save-btn" onclick="saveExtra()">Salvar</button>
       </div>
@@ -134,8 +145,8 @@
 <div class="import-overlay" id="import-overlay" onclick="closeImport()">
   <div class="import-box" onclick="event.stopPropagation()">
     <div class="import-header">
-      <h2>📋 Importar Histórico Escolar</h2>
-      <button class="modal-close" onclick="closeImport()">✕</button>
+      <h2><span data-icon="upload" data-icon-size="18"></span>Importar Histórico Escolar</h2>
+      <button class="modal-close" onclick="closeImport()"><span data-icon="close"></span></button>
     </div>
     <div class="import-body">
       <div class="drop-zone" id="drop-zone"
@@ -143,9 +154,9 @@
         ondragleave="this.classList.remove('drag-over')"
         ondrop="handleDrop(event)"
         onclick="document.getElementById('pdf-file-input').click()">
-        <div class="drop-zone-icon">📄</div>
+        <div class="drop-zone-icon"><span data-icon="fileUp"></span></div>
         <p>Arraste o <strong style="color:var(--text)">PDF do Histórico Escolar</strong> aqui<br>ou <span>clique para selecionar</span></p>
-        <p style="margin-top:10px;font-size:.72rem;color:var(--green);opacity:.9">🔒 100% local — nenhum dado enviado para servidores</p>
+        <p style="margin-top:10px;font-size:.72rem;color:var(--green);opacity:.9;display:flex;align-items:center;justify-content:center;gap:5px"><span data-icon="lock"></span>100% local — nenhum dado enviado para servidores</p>
         <p style="margin-top:4px;font-size:.68rem;opacity:.45">Histórico Escolar Parcial — UEA</p>
       </div>
       <input type="file" id="pdf-file-input" accept=".pdf,.txt" onchange="handleFileSelect(event)">
@@ -153,7 +164,7 @@
         <div class="import-status" id="import-status"></div>
         <div class="import-results" id="import-results"></div>
       </div>
-      <button class="import-confirm-btn" id="import-confirm-btn" onclick="confirmImport()">✓ Aplicar ao histórico</button>
+      <button class="import-confirm-btn" id="import-confirm-btn" onclick="confirmImport()"><span data-icon="check" data-icon-size="14"></span>Aplicar ao histórico</button>
     </div>
   </div>
 </div>
@@ -162,13 +173,13 @@
 <div class="cfg-overlay" id="cfg-overlay" onclick="closeCfg()">
   <div class="cfg-panel" onclick="event.stopPropagation()">
     <div class="cfg-head">
-      <h2>⚙️ Configurações</h2>
-      <button class="modal-close" onclick="closeCfg()">✕</button>
+      <h2><span data-icon="settings" data-icon-size="17"></span>Configurações</h2>
+      <button class="modal-close" onclick="closeCfg()"><span data-icon="close"></span></button>
     </div>
     <div class="cfg-body">
 
       <div class="cfg-section">
-        <div class="cfg-section-title">🔍 Filtros de Exibição</div>
+        <div class="cfg-section-title"><span data-icon="filter"></span>Filtros de Exibição</div>
         <div class="cfg-row">
           <div class="cfg-label">Ocultar matérias concluídas<small>Mostra só o que falta cursar</small></div>
           <label class="cfg-toggle"><input type="checkbox" id="cfg-hide-done" onchange="applyCfg()"><span class="cfg-toggle-slider"></span></label>
@@ -190,7 +201,7 @@
       </div>
 
       <div class="cfg-section">
-        <div class="cfg-section-title">🎨 Tema e Cores</div>
+        <div class="cfg-section-title"><span data-icon="sun"></span>Tema e Cores</div>
         <div class="cfg-row">
           <div class="cfg-label">Tema</div>
           <div class="cfg-seg">
@@ -210,7 +221,7 @@
       </div>
 
       <div class="cfg-section">
-        <div class="cfg-section-title">🃏 Informações no Card</div>
+        <div class="cfg-section-title"><span data-icon="creditCard"></span>Informações no Card</div>
         <div class="cfg-row">
           <div class="cfg-label">Mostrar código</div>
           <label class="cfg-toggle"><input type="checkbox" id="cfg-show-code" checked onchange="applyCfg()"><span class="cfg-toggle-slider"></span></label>
@@ -226,7 +237,7 @@
       </div>
 
       <div class="cfg-section">
-        <div class="cfg-section-title">➡️ Setas e Conexões</div>
+        <div class="cfg-section-title"><span data-icon="arrowRight"></span>Setas e Conexões</div>
         <div class="cfg-row">
           <div class="cfg-label">Mostrar setas</div>
           <div class="cfg-seg">
@@ -262,7 +273,7 @@
       </div>
 
       <div class="cfg-section">
-        <div class="cfg-section-title">📐 Layout da Grade</div>
+        <div class="cfg-section-title"><span data-icon="grid"></span>Layout da Grade</div>
         <div class="cfg-row">
           <div class="cfg-label">Orientação</div>
           <div class="cfg-seg">
@@ -292,13 +303,14 @@
         </div>
       </div>
 
-      <button class="cfg-reset" onclick="resetCfg()">↺ Restaurar padrões</button>
+      <button class="cfg-reset" onclick="resetCfg()"><span data-icon="retry"></span>Restaurar padrões</button>
     </div>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
+<script src="js/icons.js"></script>
 <script src="js/data.js"></script>
 <script src="js/storage.js"></script>
 <script src="js/settings.js"></script>

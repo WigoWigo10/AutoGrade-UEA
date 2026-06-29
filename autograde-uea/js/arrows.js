@@ -8,6 +8,23 @@ function drawArrows(){
   svg.style.height=track.scrollHeight+'px';
   const tR=track.getBoundingClientRect();
 
+  // Arrowhead marker — fill inherits stroke color of each path via context-stroke
+  const defs=document.createElementNS('http://www.w3.org/2000/svg','defs');
+  const marker=document.createElementNS('http://www.w3.org/2000/svg','marker');
+  marker.setAttribute('id','ah');
+  marker.setAttribute('markerWidth','8');
+  marker.setAttribute('markerHeight','6');
+  marker.setAttribute('refX','8');
+  marker.setAttribute('refY','3');
+  marker.setAttribute('orient','auto');
+  marker.setAttribute('markerUnits','userSpaceOnUse');
+  const tip=document.createElementNS('http://www.w3.org/2000/svg','polygon');
+  tip.setAttribute('points','0 0, 8 3, 0 6');
+  tip.setAttribute('fill','context-stroke');
+  marker.appendChild(tip);
+  defs.appendChild(marker);
+  svg.appendChild(defs);
+
   const statusCache={};
   DATA[G].forEach(s=>{ statusCache[s.id]=getSub(s.id).status; });
 
@@ -38,7 +55,8 @@ function drawArrows(){
       x2 = r2.left + r2.width/2  - tR.left;
       y2 = r2.top                 - tR.top;
       if(y2 <= y1 + 10) return;
-      cp = Math.abs(y2-y1) * 0.4;
+      // cap control point to avoid extreme curves on long distances
+      cp = Math.min(Math.abs(y2-y1) * 0.45, 120);
       if(CFG.arrowStyle==='straight'){
         d=`M${x1} ${y1} L${x2} ${y2}`;
       } else if(CFG.arrowStyle==='step'){
@@ -53,7 +71,8 @@ function drawArrows(){
       x2 = r2.left                - tR.left;
       y2 = r2.top + r2.height/2   - tR.top;
       if(x2 <= x1+10) return;
-      cp = Math.abs(x2-x1) * 0.4;
+      // cap control point to avoid extreme curves on long distances
+      cp = Math.min(Math.abs(x2-x1) * 0.45, 120);
       if(CFG.arrowStyle==='straight'){
         d=`M${x1} ${y1} L${x2} ${y2}`;
       } else if(CFG.arrowStyle==='step'){
@@ -63,11 +82,14 @@ function drawArrows(){
         d=`M${x1} ${y1} C${x1+cp} ${y1},${x2-cp} ${y2},${x2} ${y2}`;
       }
     }
-    const sw={thin:1,normal:1.5,thick:3}[CFG.arrowSize]||1.5;
+    const sw={thin:1,normal:1.5,thick:2.5}[CFG.arrowSize]||1.5;
     const path=document.createElementNS('http://www.w3.org/2000/svg','path');
     path.setAttribute('d',d);
     path.setAttribute('class','arrow-line');
     path.setAttribute('stroke-width',sw);
+    path.setAttribute('stroke-linecap','round');
+    path.setAttribute('stroke-linejoin','round');
+    path.setAttribute('marker-end','url(#ah)');
     path.setAttribute('data-from',fromId);
     path.setAttribute('data-to',toId);
     svg.appendChild(path);
@@ -80,13 +102,10 @@ function hlChain(id,on){
   if(!on){
     track.classList.remove('dimmed');
     document.querySelectorAll('.card').forEach(c=>c.classList.remove('lit'));
-    document.querySelectorAll('.arrow-line').forEach(l=>{l.classList.remove('active');l.style.stroke='';});
+    document.querySelectorAll('.arrow-line').forEach(l=>{l.classList.remove('active');l.style.stroke='';l.style.strokeWidth='';});
     return;
   }
   track.classList.add('dimmed');
-
-  const statusCache={};
-  DATA[G].forEach(s=>{ statusCache[s.id]=getSub(s.id).status; });
 
   const chain=new Set();
   const fw=cid=>{
@@ -116,6 +135,7 @@ function hlChain(id,on){
     if(all.has(from)&&all.has(to)){
       l.classList.add('active');
       l.style.stroke=c.main;
+      l.style.strokeWidth='2.5';
     }
   });
 }

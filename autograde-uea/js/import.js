@@ -22,7 +22,7 @@ async function processFile(f){
   const prog=document.getElementById('import-progress');
   const statusEl=document.getElementById('import-status');
   prog.classList.add('show');
-  statusEl.innerHTML=`<span style="color:var(--accent)">📄 Lendo PDF localmente...</span>`;
+  statusEl.innerHTML=`<span style="color:var(--accent);display:flex;align-items:center;gap:5px">${IC.file()} Lendo PDF localmente...</span>`;
 
   try {
     pdfjsLib.GlobalWorkerOptions.workerSrc =
@@ -30,7 +30,7 @@ async function processFile(f){
 
     const arrayBuffer = await f.arrayBuffer();
     const pdf = await pdfjsLib.getDocument({data: arrayBuffer}).promise;
-    statusEl.innerHTML=`<span style="color:var(--accent)">📄 PDF carregado (${pdf.numPages} página(s)) — extraindo texto...</span>`;
+    statusEl.innerHTML=`<span style="color:var(--accent);display:flex;align-items:center;gap:5px">${IC.file()} PDF carregado (${pdf.numPages} página(s)) — extraindo texto...</span>`;
 
     let fullText = '';
     for(let pageNum=1; pageNum<=pdf.numPages; pageNum++){
@@ -54,11 +54,11 @@ async function processFile(f){
       });
     }
 
-    statusEl.innerHTML=`<span style="color:var(--accent)">🔍 Analisando disciplinas...</span>`;
+    statusEl.innerHTML=`<span style="color:var(--accent);display:flex;align-items:center;gap:5px">${IC.search()} Analisando disciplinas...</span>`;
     parseHistorico(fullText);
 
   } catch(err) {
-    statusEl.innerHTML=`<span style="color:var(--red)">❌ Erro ao ler PDF: ${err.message}</span><br>
+    statusEl.innerHTML=`<span style="color:var(--red);display:flex;align-items:center;gap:5px">${IC.error()} Erro ao ler PDF: ${err.message}</span><br>
     <small style="opacity:.6">Certifique-se de que o arquivo é um PDF válido do histórico da UEA.</small>`;
     console.error(err);
   }
@@ -152,7 +152,7 @@ function parseHistorico(text){
 
     // Check optativa catalog (grades that define opt)
     if(optCatalog[code]){
-      if(!optFound.find(o=>o.code===code)){
+      if(status !== 'trancado' && !optFound.find(o=>o.code===code)){
         const chM = codeOwnerLine.match(/\b(30|45|60|75|90|120)\b/);
         const hours = chM ? chM[1]+'h' : optCatalog[code].hours;
         optFound.push({code, name:optCatalog[code].name, hours, status, grade, semester});
@@ -216,7 +216,7 @@ function parseHistorico(text){
   matched.forEach(({subId,code,status,grade,semester,subjectName,attempts})=>{
     const sub=DATA[G].find(s=>s.id===subId);
     const name=subjectName||(sub?.name||subId);
-    const icon=status==='done'?'✓':status==='enrolled'?'▶':status==='trancado'?'↩':'↺';
+    const icon=CARD_BADGE_SVG[status]||CARD_BADGE_SVG.failed;
     const cls=(status==='failed'||status==='trancado')?'unmatched':'matched';
     const optTag=sub?.optional?`<span style="font-size:.6rem;opacity:.5;margin-left:4px">OPT</span>`:'';
     const retryTag=attempts&&attempts.length>1?`<span style="font-size:.6rem;margin-left:6px;color:var(--yellow);opacity:.8">${attempts.length}x</span>`:'';
@@ -227,7 +227,7 @@ function parseHistorico(text){
     resultsEl.innerHTML+=`<div style="margin-top:10px;padding:8px 10px;border-radius:7px;background:rgba(255,255,255,.03);border:1px solid var(--border);">
       <div style="font-size:.63rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px">Códigos não identificados</div>`;
     unmatched.forEach(({code,grade})=>{
-      resultsEl.innerHTML+=`<div class="iri unmatched" style="background:transparent;margin-bottom:2px;opacity:.7">⚠ <strong>${code}</strong> ${grade?`<span style="margin-left:auto">${grade}</span>`:''}</div>`;
+      resultsEl.innerHTML+=`<div class="iri unmatched" style="background:transparent;margin-bottom:2px;opacity:.7">${IC.warn()} <strong>${code}</strong> ${grade?`<span style="margin-left:auto">${grade}</span>`:''}</div>`;
     });
     resultsEl.innerHTML+=`</div>`;
   }
@@ -238,11 +238,11 @@ function parseHistorico(text){
 
   if(total>0){
     const optMsg=optCount>0?` <span style="color:var(--accent2);font-size:.75rem">+ ${optCount} optativa(s)</span>`:'';
-    statusEl.innerHTML=`<span style="color:var(--green)">✓ ${total-optCount} matéria(s) obrigatória(s) identificada(s)</span>${optMsg}`;
+    statusEl.innerHTML=`<span style="color:var(--green);display:flex;align-items:center;gap:5px">${IC.check()} ${total-optCount} matéria(s) obrigatória(s) identificada(s)</span>${optMsg}`;
     document.getElementById('import-confirm-btn').classList.add('show');
   } else {
     const foundCodes = [...text.matchAll(/\b(EST[A-Z]{2,6}\d{3,})\b/gi)].map(m=>m[1]).slice(0,5);
-    statusEl.innerHTML=`<span style="color:var(--yellow)">⚠ Nenhuma matéria da grade selecionada identificada.</span><br>
+    statusEl.innerHTML=`<span style="color:var(--yellow);display:flex;align-items:center;gap:5px">${IC.warn()} Nenhuma matéria da grade selecionada identificada.</span><br>
     <small style="opacity:.6">Códigos detectados no PDF: ${foundCodes.length>0?foundCodes.join(', '):'nenhum'}<br>
     Verifique se a grade selecionada está correta.</small>`;
   }
@@ -259,5 +259,5 @@ function confirmImport(){
   });
   render();
   closeImport();
-  showToast(`✓ ${pendingImport.length} matérias importadas com sucesso!`,'ok');
+  showToast(`${IC.check()} ${pendingImport.length} matérias importadas com sucesso!`,'ok');
 }

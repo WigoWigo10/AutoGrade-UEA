@@ -4,12 +4,23 @@ let tt;
 
 // ── INIT ─────────────────────────────────────────────────────────────────────
 function init(){
+  initIcons();
   applyCfgOnLoad();
   if(CFG.grade){
     G=CFG.grade;
-    document.querySelectorAll('.tab-btn').forEach(b=>{
-      b.classList.toggle('active', (b.getAttribute('onclick')||'').includes(`'${G}'`));
-    });
+    const activeBtn=document.querySelector(`.grade-pill[onclick*="'${G}'"]`);
+    if(activeBtn){
+      const course=activeBtn.closest('.grade-pills').dataset.for;
+      document.querySelectorAll('.grade-pills').forEach(gp=>{gp.hidden=gp.dataset.for!==course;});
+      document.querySelectorAll('.grade-pill').forEach(b=>b.classList.remove('active'));
+      activeBtn.classList.add('active');
+      const cpickItem=document.querySelector(`.cpick-item[data-course="${course}"]`);
+      if(cpickItem){
+        document.querySelectorAll('.cpick-item').forEach(b=>b.classList.remove('active'));
+        cpickItem.classList.add('active');
+        document.getElementById('course-pick-label').textContent=cpickItem.textContent;
+      }
+    }
   }
   buildLegend();
   const chipsEl = document.getElementById('period-chips');
@@ -25,6 +36,10 @@ function init(){
   render();
   window.addEventListener('resize',drawArrows);
   document.getElementById('scroll').addEventListener('scroll',drawArrows);
+  document.addEventListener('click',e=>{
+    if(!e.target.closest('.course-pick'))
+      document.getElementById('course-pick')?.classList.remove('open');
+  });
 }
 
 // ── SEARCH ───────────────────────────────────────────────────────────────────
@@ -52,7 +67,7 @@ function clearAll(){
 // ── TOAST ────────────────────────────────────────────────────────────────────
 function showToast(msg,type=''){
   const t=document.getElementById('toast');
-  t.textContent=msg;t.className='toast show'+(type?' '+type:'');
+  t.innerHTML=msg;t.className='toast show'+(type?' '+type:'');
   clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),2800);
 }
 
