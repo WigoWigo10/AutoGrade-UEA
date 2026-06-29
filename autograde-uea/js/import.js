@@ -104,14 +104,22 @@ function parseHistorico(text){
     if(!codeMatch) continue;
     const code = codeMatch[1].toUpperCase();
 
-    if(processedLines.has(code+currentSemester)) continue;
-
     // Find which specific line owns this code, then check SKIP only on that line.
     // Checking window3 as a whole would cause an adjacent "Tranc" to incorrectly
     // discard an approved subject two rows away (e.g. ESTBAS009 next to ESTBAS011-Tranc).
     const codeOwnerLine = [line, lines[i-1]||'', lines[i+1]||'']
       .find(l => { const m=l.match(codeRe); return m && m[1].toUpperCase()===code; }) || '';
     if(SKIP.some(s=>codeOwnerLine.includes(s))) continue;
+
+    // Extract semester from the code's own line before the dedup check.
+    // Using currentSemester here causes false hits: when a code from lines[i-1] is
+    // picked up by window3 at line i, currentSemester has already advanced to i's
+    // semester, so processedLines gets keyed on the wrong semester and blocks the
+    // real entry for that semester later.
+    const ownerSemM = codeOwnerLine.match(/(\d{4})\s*[\/\\]\s*(\d)\b/);
+    const semester = ownerSemM ? ownerSemM[1]+'/'+ownerSemM[2] : currentSemester;
+
+    if(processedLines.has(code+semester)) continue;
 
     // Status: check code's own line first — adjacent Aprov/Rep must not contaminate
     // (e.g. ESTBAS007-RepN surrounded by Aprov lines must stay 'failed', not become 'done')
@@ -128,7 +136,7 @@ function parseHistorico(text){
     }
     if(!status) continue;
 
-    processedLines.add(code+currentSemester);
+    processedLines.add(code+semester);
 
     // Grade: code's own line first, fall back to window3.
     // Trancado never has a grade — skip extraction to avoid picking up a neighbor's grade.
@@ -145,10 +153,6 @@ function parseHistorico(text){
 
     const turmaM = codeOwnerLine.match(/\b([A-Z][A-Z0-9]{2,7}_T\d{2})\b/);
     const turma = turmaM ? turmaM[1] : '';
-
-    // Semester from code's own line to avoid wrong semester at section boundaries
-    const ownerSemM = codeOwnerLine.match(/(\d{4})\s*[\/\\]\s*(\d)\b/);
-    const semester = ownerSemM ? ownerSemM[1]+'/'+ownerSemM[2] : currentSemester;
 
     // Check optativa catalog (grades that define opt)
     if(optCatalog[code]){

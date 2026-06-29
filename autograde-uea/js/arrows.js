@@ -79,7 +79,10 @@ function drawArrows(){
         const mx=(x1+x2)/2;
         d=`M${x1} ${y1} L${mx} ${y1} L${mx} ${y2} L${x2} ${y2}`;
       } else {
-        d=`M${x1} ${y1} C${x1+cp} ${y1},${x2-cp} ${y2},${x2} ${y2}`;
+        // Blend vertical offset into control points so the arrowhead
+        // aligns with the visual direction of the line when it is diagonal
+        const vy=(y2-y1)*0.4;
+        d=`M${x1} ${y1} C${x1+cp} ${y1+vy},${x2-cp} ${y2-vy},${x2} ${y2}`;
       }
     }
     const sw={thin:1,normal:1.5,thick:2.5}[CFG.arrowSize]||1.5;
