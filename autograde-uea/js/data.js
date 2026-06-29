@@ -112,39 +112,39 @@ const DATA={
 ],
 "ECA_2023":[
   // ── 1º PERÍODO ──
-  {id:'com_exp_23',     name:'Comunicação e Expressão',           code:'ESTBAS006', period:1,  hours:'60h',  pre:[],                              unlocks:['prat_prof_23']},
+  {id:'com_exp_23',     name:'Comunicação e Expressão',           code:'ESTBAS006', period:1,  hours:'60h',  pre:[],                              unlocks:[]},
   {id:'intro_eca_23',   name:'Intro. Eng. Controle e Aut.',       code:'ESTEMA103', period:1,  hours:'30h',  pre:[],                              unlocks:['intro_ca_23','inst_bas_23']},
   {id:'intro_amb_23',   name:'Intro. Ciências do Ambiente',       code:'ESTBAS004', period:1,  hours:'30h',  pre:[],                              unlocks:[]},
-  {id:'fis1_23',        name:'Física I',                          code:'ESTBAS007', period:1,  hours:'60h',  pre:[],                              unlocks:['fis2_23','lab_fis1_23','mec_sol_23']},
+  {id:'fis1_23',        name:'Física I',                          code:'ESTBAS007', period:1,  hours:'60h',  pre:[],                              unlocks:['fis2_23','mec_sol_23']},
   {id:'quim_23',        name:'Química Geral',                     code:'ESTBAS005', period:1,  hours:'60h',  pre:[],                              unlocks:['intro_mat_23']},
   {id:'alglin1_23',     name:'Álgebra Linear I',                  code:'ESTBAS001', period:1,  hours:'60h',  pre:[],                              unlocks:['alglin2_23']},
   {id:'prog1_23',       name:'Ling. de Programação I',            code:'ESTECP001', period:1,  hours:'60h',  pre:[],                              unlocks:['prog2_23']},
-  {id:'calc1_23',       name:'Cálculo I',                         code:'ESTBAS002', period:1,  hours:'90h',  pre:[],                              unlocks:['calc2_23','prob_est_23']},
+  {id:'calc1_23',       name:'Cálculo I',                         code:'ESTBAS002', period:1,  hours:'90h',  pre:[],                              unlocks:['calc2_23','prob_est_23','intro_adm_23']},
   {id:'intro_econ_23',  name:'Introdução à Economia',             code:'ESTBAS017', period:1,  hours:'45h',  pre:[],                              unlocks:[]},
 
   // ── 2º PERÍODO ──
-  {id:'fis2_23',        name:'Física II',                         code:'ESTBAS013', period:2,  hours:'60h',  pre:['fis1_23'],                     unlocks:['fis3_23','lab_fis2_23','fen_trans_23']},
-  {id:'alglin2_23',     name:'Álgebra Linear II',                 code:'ESTBAS008', period:2,  hours:'60h',  pre:['alglin1_23'],                  unlocks:['met_mat_23']},
+  {id:'fis2_23',        name:'Física II',                         code:'ESTBAS013', period:2,  hours:'60h',  pre:['fis1_23'],                     unlocks:['fis3_23','fen_trans_23','lab_fis1_23']},
+  {id:'alglin2_23',     name:'Álgebra Linear II',                 code:'ESTBAS008', period:2,  hours:'60h',  pre:['alglin1_23'],                  unlocks:[]},
   {id:'prog2_23',       name:'Ling. de Programação II',           code:'ESTECP002', period:2,  hours:'60h',  pre:['prog1_23'],                    unlocks:[]},
   {id:'prob_est_23',    name:'Probabilidade e Estatística',       code:'ESTBAS012', period:2,  hours:'60h',  pre:['calc1_23'],                    unlocks:[]},
   {id:'calc2_23',       name:'Cálculo II',                        code:'ESTBAS009', period:2,  hours:'75h',  pre:['calc1_23'],                    unlocks:['met_mat_23','calc_vet_23']},
   {id:'des_tec_23',     name:'Desenho Técnico Ass. Comp.',        code:'ESTEMA201', period:2,  hours:'60h',  pre:[],                              unlocks:[]},
-  {id:'intro_adm_23',   name:'Introdução à Administração',        code:'ESTBAS011', period:2,  hours:'45h',  pre:[],                              unlocks:[]},
+  {id:'intro_adm_23',   name:'Introdução à Administração',        code:'ESTBAS011', period:2,  hours:'45h',  pre:['calc1_23'],                    unlocks:[]},
 
   // ── 3º PERÍODO ──
-  {id:'fis3_23',        name:'Física III',                        code:'ESTBAS015', period:3,  hours:'60h',  pre:['fis2_23'],                     unlocks:['fis4_23','circ1_23','lab_circ1_23']},
-  {id:'lab_fis1_23',    name:'Lab. Física I',                     code:'ESTBAS016', period:3,  hours:'30h',  pre:['fis1_23'],                     unlocks:[]},
+  {id:'fis3_23',        name:'Física III',                        code:'ESTBAS015', period:3,  hours:'60h',  pre:['fis2_23'],                     unlocks:['fis4_23','circ1_23','lab_circ1_23','lab_fis2_23']},
+  {id:'lab_fis1_23',    name:'Lab. Física I',                     code:'ESTBAS016', period:3,  hours:'30h',  pre:['fis2_23'],                     unlocks:[]},
   {id:'mec_sol_23',     name:'Mecânica dos Sólidos',              code:'ESTEMA301', period:3,  hours:'60h',  pre:['fis1_23'],                     unlocks:[]},
   {id:'fen_trans_23',   name:'Fenômenos de Transporte',           code:'ESTEMA302', period:3,  hours:'60h',  pre:['fis2_23'],                     unlocks:['cmd_pn_23']},
   {id:'intro_mat_23',   name:'Intro. Ciências dos Materiais',     code:'ESTEMA305', period:3,  hours:'60h',  pre:['quim_23'],                     unlocks:['proc_fab_23']},
   {id:'inst_bas_23',    name:'Instrumentação Básica',             code:'ESTEMA304', period:3,  hours:'45h',  pre:['intro_eca_23'],                unlocks:[]},
   {id:'intro_ca_23',    name:'Intro. Controle e Automação',       code:'ESTEMA303', period:3,  hours:'30h',  pre:['intro_eca_23'],                unlocks:['sist_ev_23']},
-  {id:'met_mat_23',     name:'Métodos Matemáticos',               code:'ESTEMA300', period:3,  hours:'60h',  pre:['calc2_23','alglin2_23'],       unlocks:['sist_din_23','sinais_23','calc_num_23']},
-  {id:'prat_prof_23',   name:'Prática Profissional e Ética',      code:'ESTBAS022', period:3,  hours:'60h',  pre:['com_exp_23'],                  unlocks:[]},
+  {id:'met_mat_23',     name:'Métodos Matemáticos',               code:'ESTEMA300', period:3,  hours:'60h',  pre:['calc2_23'],                    unlocks:['sist_din_23','sinais_23','calc_num_23']},
+  {id:'prat_prof_23',   name:'Prática Profissional e Ética',      code:'ESTBAS022', period:3,  hours:'60h',  pre:[],                              unlocks:[]},
 
   // ── 4º PERÍODO ──
   {id:'fis4_23',        name:'Física IV',                         code:'ESTBAS018', period:4,  hours:'60h',  pre:['fis3_23'],                     unlocks:[]},
-  {id:'lab_fis2_23',    name:'Lab. Física II',                    code:'ESTBAS020', period:4,  hours:'30h',  pre:['fis2_23'],                     unlocks:[]},
+  {id:'lab_fis2_23',    name:'Lab. Física II',                    code:'ESTBAS020', period:4,  hours:'30h',  pre:['fis3_23'],                     unlocks:[]},
   {id:'circ1_23',       name:'Circuitos Elétricos I',             code:'ESTEEL001', period:4,  hours:'60h',  pre:['fis3_23'],                     unlocks:['circ2_23','elet_ana_23','lab_circ2_23','lab_elet_ana_23','inst_ind_23','lab_inst_23']},
   {id:'lab_circ1_23',   name:'Lab. Circuitos Elétricos I',        code:'ESTEMA403', period:4,  hours:'30h',  pre:['fis3_23'],                     unlocks:['lab_circ2_23','lab_elet_ana_23','lab_inst_23']},
   {id:'calc_vet_23',    name:'Cálculo Vetorial',                  code:'ESTEMA400', period:4,  hours:'75h',  pre:['calc2_23'],                    unlocks:[]},
@@ -154,7 +154,7 @@ const DATA={
 
   // ── 5º PERÍODO ──
   {id:'circ2_23',       name:'Circuitos Elétricos II',            code:'ESTEEL003', period:5,  hours:'60h',  pre:['circ1_23'],                    unlocks:['sist_pot_23']},
-  {id:'elet_ana_23',    name:'Eletrônica Analógica',              code:'ESTEMA003', period:5,  hours:'60h',  pre:['circ1_23'],                    unlocks:['elet_dig_23']},
+  {id:'elet_ana_23',    name:'Eletrônica Analógica',              code:'ESTEMA003', period:5,  hours:'60h',  pre:['circ1_23'],                    unlocks:['elet_dig_23','lab_elet_dig_23']},
   {id:'inst_ind_23',    name:'Instrumentação Industrial',         code:'ESTEMA005', period:5,  hours:'60h',  pre:['circ1_23'],                    unlocks:[]},
   {id:'cont1_23',       name:'Controle I',                        code:'ESTEMA500', period:5,  hours:'60h',  pre:['sist_din_23'],                 unlocks:['cont2_23','lab_cont2_23']},
   {id:'lab_cont1_23',   name:'Lab. Controle I',                   code:'ESTEMA501', period:5,  hours:'45h',  pre:['sist_din_23'],                 unlocks:['lab_cont2_23']},
@@ -165,7 +165,8 @@ const DATA={
 
   // ── 6º PERÍODO ──
   {id:'sist_pot_23',    name:'Sist. Eletrônicos de Potência',     code:'ESTMT006',  period:6,  hours:'60h',  pre:['circ2_23'],                    unlocks:['maq_elet_23']},
-  {id:'elet_dig_23',    name:'Eletrônica Digital',                code:'ESTEMA009', period:6,  hours:'60h',  pre:['elet_ana_23'],                 unlocks:['lab_elet_dig_23','micro_23']},
+  {id:'elet_dig_23',    name:'Eletrônica Digital',                code:'ESTEMA009', period:6,  hours:'60h',  pre:['elet_ana_23'],                 unlocks:['micro_23']},
+  {id:'lab_elet_dig_23',name:'Lab. Eletrônica Digital',           code:'ESTEMA061', period:6,  hours:'45h',  pre:['elet_ana_23'],                 unlocks:[]},
   {id:'hig_seg_23',     name:'Higiene e Segurança',               code:'ESTECI024', period:6,  hours:'60h',  pre:[],                              unlocks:[]},
   {id:'proc_fab_23',    name:'Proc. de Fabricação Mecânica',      code:'ESTEMA502', period:6,  hours:'60h',  pre:['intro_mat_23'],                unlocks:['gest_op_23']},
   {id:'cont2_23',       name:'Controle II',                       code:'ESTEMA600', period:6,  hours:'60h',  pre:['cont1_23'],                    unlocks:['cont3_23','lab_cont3_23']},
@@ -173,11 +174,10 @@ const DATA={
   {id:'lab_cont2_23',   name:'Lab. Controle II',                  code:'ESTEMA601', period:6,  hours:'30h',  pre:['cont1_23','lab_cont1_23'],     unlocks:['lab_cont3_23']},
 
   // ── 7º PERÍODO ──
-  {id:'lab_elet_dig_23',name:'Lab. Eletrônica Digital',           code:'ESTEMA061', period:7,  hours:'45h',  pre:['elet_dig_23'],                 unlocks:[]},
   {id:'maq_elet_23',    name:'Máquinas Elétricas e Acion.',       code:'ESTEEL027', period:7,  hours:'60h',  pre:['sist_pot_23'],                 unlocks:['lab_maq_23']},
   {id:'micro_23',       name:'Microcontroladores',                code:'ESTEMA700', period:7,  hours:'45h',  pre:['elet_dig_23'],                 unlocks:['auto_sist2_23']},
   {id:'cont3_23',       name:'Controle III',                      code:'ESTEMA701', period:7,  hours:'60h',  pre:['cont2_23'],                    unlocks:['cont_dig_23','robotica_23','cont_proc_23']},
-  {id:'estagio1_23',    name:'Estágio Supervisionado I em ECA',   code:'ESTEMA602', period:7,  hours:'390h', pre:[],                              unlocks:['estagio2_23']},
+  {id:'estagio1_23',    name:'Estágio Supervisionado I em ECA',   code:'ESTEMA602', period:7,  hours:'390h', pre:['alglin1_23','calc1_23','intro_eca_23','intro_amb_23','quim_23','com_exp_23','fis1_23','prog1_23','alglin2_23','calc2_23','des_tec_23','intro_adm_23','prob_est_23','fis2_23','prog2_23','intro_econ_23','met_mat_23','fis3_23','lab_fis1_23','prat_prof_23','mec_sol_23','fen_trans_23','intro_ca_23','inst_bas_23','intro_mat_23','fis4_23','calc_vet_23','lab_fis2_23','calc_num_23','sist_din_23','sinais_23','circ1_23','lab_circ1_23','circ2_23','lab_circ2_23','elet_ana_23','lab_elet_ana_23','inst_ind_23','lab_inst_23','sist_ev_23','cont1_23','lab_cont1_23','elet_dig_23','lab_elet_dig_23','proc_fab_23','sist_pot_23','auto_sist1_23','hig_seg_23','cont2_23','lab_cont2_23'], unlocks:['estagio2_23']},
   {id:'cmd_pn_23',      name:'Comandos Pneumáticos e Hid.',       code:'ESTEMA603', period:7,  hours:'60h',  pre:['fen_trans_23'],                unlocks:['lab_cmd_23']},
   {id:'lab_cont3_23',   name:'Lab. Controle III',                 code:'ESTEMA702', period:7,  hours:'30h',  pre:['cont2_23','lab_cont2_23'],     unlocks:[]},
 
@@ -192,9 +192,9 @@ const DATA={
   {id:'opt1_23',        name:'Optativa I',                        code:'—',         period:8,  hours:'—',    pre:[],                              unlocks:[],  optional:true},
 
   // ── 9º PERÍODO ──
-  {id:'tcc1_23',        name:'TCC I',                             code:'ESTEMA803', period:9,  hours:'45h',  pre:[],                              unlocks:['tcc2_23']},
+  {id:'tcc1_23',        name:'TCC I',                             code:'ESTEMA803', period:9,  hours:'45h',  pre:['alglin1_23','calc1_23','intro_eca_23','intro_amb_23','quim_23','com_exp_23','fis1_23','prog1_23','alglin2_23','calc2_23','des_tec_23','intro_adm_23','prob_est_23','fis2_23','prog2_23','intro_econ_23','met_mat_23','fis3_23','lab_fis1_23','prat_prof_23','mec_sol_23','fen_trans_23','intro_ca_23','inst_bas_23','intro_mat_23','fis4_23','calc_vet_23','lab_fis2_23','calc_num_23','sist_din_23','sinais_23','circ1_23','lab_circ1_23','circ2_23','lab_circ2_23','elet_ana_23','lab_elet_ana_23','inst_ind_23','lab_inst_23','sist_ev_23','cont1_23','lab_cont1_23','elet_dig_23','lab_elet_dig_23','proc_fab_23','sist_pot_23','auto_sist1_23','hig_seg_23','cont2_23','lab_cont2_23','estagio1_23','cmd_pn_23','maq_elet_23','micro_23','cont3_23','lab_cont3_23'], unlocks:['tcc2_23']},
   {id:'auto_sist3_23',  name:'Automação de Sistemas III',         code:'ESTEMA900', period:9,  hours:'60h',  pre:['auto_sist2_23'],               unlocks:[]},
-  {id:'top_esp1_23',    name:'Tópicos Especiais em ECA I',        code:'ESTEMA804', period:9,  hours:'60h',  pre:[],                              unlocks:[]},
+  {id:'top_esp1_23',    name:'Tópicos Especiais em ECA I',        code:'ESTEMA804', period:9,  hours:'60h',  pre:['alglin1_23','calc1_23','intro_eca_23','intro_amb_23','quim_23','com_exp_23','fis1_23','prog1_23','alglin2_23','calc2_23','des_tec_23','intro_adm_23','prob_est_23','fis2_23','prog2_23','intro_econ_23','met_mat_23','fis3_23','lab_fis1_23','prat_prof_23','mec_sol_23','fen_trans_23','intro_ca_23','inst_bas_23','intro_mat_23','fis4_23','calc_vet_23','lab_fis2_23','calc_num_23','sist_din_23','sinais_23','circ1_23','lab_circ1_23','circ2_23','lab_circ2_23','elet_ana_23','lab_elet_ana_23','inst_ind_23','lab_inst_23','sist_ev_23','cont1_23','lab_cont1_23','elet_dig_23','lab_elet_dig_23','proc_fab_23','sist_pot_23','auto_sist1_23','hig_seg_23','cont2_23','lab_cont2_23'], unlocks:[]},
   {id:'opt2_23',        name:'Optativa II',                       code:'—',         period:9,  hours:'—',    pre:[],                              unlocks:[],  optional:true},
   {id:'opt3_23',        name:'Optativa III',                      code:'—',         period:9,  hours:'—',    pre:[],                              unlocks:[],  optional:true},
 
@@ -203,7 +203,7 @@ const DATA={
   {id:'cont_proc_23',   name:'Controle de Processos',             code:'ESTEMA901', period:10, hours:'60h',  pre:['cont3_23'],                    unlocks:[]},
   {id:'gest_proj_23',   name:'Gestão de Projetos',                code:'ESTEMT048', period:10, hours:'60h',  pre:[],                              unlocks:[]},
   {id:'robotica_23',    name:'Robótica Industrial',               code:'ESTEMT015', period:10, hours:'60h',  pre:['cont3_23'],                    unlocks:[]},
-  {id:'top_esp2_23',    name:'Tópicos Especiais em ECA II',       code:'ESTEMA903', period:10, hours:'60h',  pre:[],                              unlocks:[]},
+  {id:'top_esp2_23',    name:'Tópicos Especiais em ECA II',       code:'ESTEMA903', period:10, hours:'60h',  pre:['alglin1_23','calc1_23','intro_eca_23','intro_amb_23','quim_23','com_exp_23','fis1_23','prog1_23','alglin2_23','calc2_23','des_tec_23','intro_adm_23','prob_est_23','fis2_23','prog2_23','intro_econ_23','met_mat_23','fis3_23','lab_fis1_23','prat_prof_23','mec_sol_23','fen_trans_23','intro_ca_23','inst_bas_23','intro_mat_23','fis4_23','calc_vet_23','lab_fis2_23','calc_num_23','sist_din_23','sinais_23','circ1_23','lab_circ1_23','circ2_23','lab_circ2_23','elet_ana_23','lab_elet_ana_23','inst_ind_23','lab_inst_23','sist_ev_23','cont1_23','lab_cont1_23','elet_dig_23','lab_elet_dig_23','proc_fab_23','sist_pot_23','auto_sist1_23','hig_seg_23','cont2_23','lab_cont2_23'], unlocks:[]},
   {id:'empr_23',        name:'Empreendedorismo e Inovação',       code:'ESTEMA904', period:10, hours:'60h',  pre:[],                              unlocks:[]},
   {id:'opt4_23',        name:'Optativa IV',                       code:'—',         period:10, hours:'—',    pre:[],                              unlocks:[],  optional:true},
   {id:'opt5_23',        name:'Optativa V',                        code:'—',         period:10, hours:'—',    pre:[],                              unlocks:[],  optional:true},
