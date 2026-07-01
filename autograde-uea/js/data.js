@@ -1103,12 +1103,89 @@ const CM_EQM={
   'ESTEQM061':'eqm_tcc2',       'ESTEQM125':'eqm_imp_amb',      'ESTEQM062':'eqm_top_esp',
 };
 
+// ── EQUIVALÊNCIAS EEL_2014 ────────────────────────────────────────────────────
+// Códigos alternativos (de outras grades/currículos) que equivalem a disciplinas
+// da grade EEL_2014. Aparecem em PDFs de alunos que cursaram equivalências.
+const EQUIV_EEL={
+  'EEN02':'eel_fis1',           'ESTBAS044':'eel_fis1',
+  'EEN03':'eel_alglin1',        'ESTBAS040':'eel_alglin1',
+  'EEN08':'eel_intro_amb',
+  'EEN21':'eel_fis3',           'ESTBAS046':'eel_fis3',
+  'EEN30':'eel_sinais',         'ESTEMA002':'eel_sinais',
+  'EEN32':'eel_fis2',           'ESTBAS045':'eel_fis2',
+  'EEN52':'eel_microcontrol',
+  'EEN60':'eel_calc_num',       'ESTECP003':'eel_calc_num',
+  'EEN64':'eel_elet_pot1',
+  'EEN70':'eel_controle1',      'ESTEMT003':'eel_controle1',
+  'ESTBAS035':'eel_intro_adm',
+  'ESTBAS037':'eel_calc1',
+  'ESTBAS043':'eel_calc4',
+  'ESTBAS050':'eel_prob_est',
+  'ESTECP014':'eel_redes_com1', 'ESTEEL070':'eel_redes_com1',
+  'ESTEEL005':'eel_elet_ana1',  'ESTTEL321':'eel_elet_ana1',
+  'ESTEEL006':'eel_lab_elet_ana1',
+  'ESTEEL007':'eel_elet_ana2',
+  'ESTEEL008':'eel_lab_elet_ana2',
+  'ESTEEL013':'eel_eletromag1',
+  'ESTEEL019':'eel_lab_controle1',
+  'ESTEMA009':'eel_elet_dig1',
+  'ESTEMA061':'eel_lab_elet_dig1',
+};
+
+// ── EQUIVALÊNCIAS EEN_2015 ────────────────────────────────────────────────────
+const EQUIV_EEN={
+  'ESTBAS001':'een_avet',
+  'ESTBAS002':'een_fmat1',
+  'ESTBAS004':'een_ciamb',
+  'ESTBAS007':'een_fund_eletmec',
+  'ESTBAS009':'een_fmat2',
+  'ESTBAS015':'een_teoria_em',  'ESTBAS046':'een_teoria_em',  'ESTBAS051':'een_teoria_em',
+  'ESTBAS049':'een_metnum',
+  'ESTECP001':'een_prog1',
+  'ESTECP002':'een_prog2',
+  'ESTEEL001':'een_circ1',
+  'ESTEEL012':'een_sinais',     'ESTEMA002':'een_sinais',
+  'ESTEEL014':'een_eletap1',
+  'ESTEEL018':'een_controle',
+  'ESTEEL021':'een_microelet',
+  'ESTEEL022':'een_eletpot',
+  'ESTEEL027':'een_eletric1',
+  'ESTEEL030':'een_pds',
+  'ESTEEL034':'een_cmdelet',
+  'ESTEEL036':'een_autoind',
+  'ESTEEL0706':'een_redes',
+  'ESTEEL0708':'een_micro',
+  'ESTEEL0713':'een_eletric2',
+  'ESTEME001':'een_mecsol',
+};
+
+// ── EQUIVALÊNCIAS EQM_2014 ────────────────────────────────────────────────────
+const EQUIV_EQM={
+  'EEN27':'eqm_eletroquim',     'ESTEQM027':'eqm_eletroquim',
+  'ESTEMT003':'eqm_controle',   'ESTTEL309':'eqm_controle',
+  'ESTEQM005':'eqm_bal_massa',
+  'ESTEQM009':'eqm_termodin1',
+  'ESTEQM011':'eqm_cinetica',
+  'ESTEQM012':'eqm_eng_bioquim',
+  'ESTEQM013':'eqm_quim_inorg_exp',
+  'ESTEQM015':'eqm_fisquim_exp',
+  'ESTEQM018':'eqm_ou2',
+  'ESTEQM019':'eqm_quim_org_exp',
+  'ESTEQM023':'eqm_mat_eqm',
+  'ESTEQM024':'eqm_proc_quim',
+  'ESTEQM025':'eqm_ou3',
+  'ESTEQM028':'eqm_reatores1',
+  'ESTEQM037':'eqm_ou4',
+  'ESTEQM041':'eqm_mod_sim',
+  'ESTEQM043':'eqm_hig_seg',
+};
+
 // ── GRADES METADATA ───────────────────────────────────────────────────────────
 const GRADES={
   'ECA_2014':{cm:CM_ECA, opt:OPT_ECA, equiv:EQUIV_ECA},
   'ECA_2023':{cm:CM_ECA_2023},
   'CMP_2018':{cm:CM_CMP, opt:OPT_CMP},
-  'EEL_2014':{cm:CM_EEL, opt:OPT_EEL},
-  'EEN_2015':{cm:CM_EEN, opt:OPT_EEN},
-  'EQM_2014':{cm:CM_EQM, opt:OPT_EQM},
+  'EEL_2014':{cm:CM_EEL, opt:OPT_EEL, equiv:EQUIV_EEL},
+  'EEN_2015':{cm:CM_EEN, opt:OPT_EEN, equiv:EQUIV_EEN},
+  'EQM_2014':{cm:CM_EQM, opt:OPT_EQM, equiv:EQUIV_EQM},
 };
